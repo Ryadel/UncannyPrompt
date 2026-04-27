@@ -1,0 +1,42 @@
+@page
+@model UncannyPrompt.WebApp.Pages.Account.DevLoginModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="min-h-screen px-4 py-10 sm:py-14">
+    <div class="mx-auto w-full max-w-md">
+        <a href="/" class="inline-flex items-center gap-3" aria-label="@SharedLocalizer["AppName"]">
+            <img src="~/img/logo.svg" alt="" class="h-10 w-auto" />
+            <span class="brand-wordmark text-xl"><span class="brand-wordmark-primary">Uncanny</span><span class="brand-wordmark-accent">Prompt</span></span>
+        </a>
+
+        <div class="mt-8 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+            <h1 class="text-2xl font-bold text-zinc-950">@Localizer["PageTitle"]</h1>
+            <p class="mt-1 text-sm text-zinc-600">@Localizer["Subtitle"]</p>
+
+            <div role="alert" class="mt-5 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm">
+                <p class="font-semibold text-amber-900">@Localizer["WarningTitle"]</p>
+                <p class="mt-0.5 text-amber-800">@Localizer["WarningBody"]</p>
+            </div>
+
+            <form method="post" action="/account/dev-login" class="mt-6 space-y-4">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                <div>
+                    <label for="dev-email" class="block text-sm font-medium text-zinc-800">@Localizer["EmailLabel"]</label>
+                    <input id="dev-email" class="input input-bordered mt-1 w-full rounded-lg" type="email" name="email" autocomplete="email" autofocus value="demo@uncannyprompt.local" required />
+                </div>
+                <div>
+                    <label for="dev-name" class="block text-sm font-medium text-zinc-800">@Localizer["NameLabel"]</label>
+                    <input id="dev-name" class="input input-bordered mt-1 w-full rounded-lg" type="text" name="displayName" autocomplete="name" value="Demo Maker" required />
+                </div>
+                <button class="btn btn-primary w-full rounded-lg" type="submit">@Localizer["SubmitButton"]</button>
+            </form>
+        </div>
+
+        <p class="mt-4 text-center text-xs text-zinc-500">
+            <a class="hover:text-uncanny-700 hover:underline" asp-page="/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["BackToSignIn"]</a>
+        </p>
+    </div>
+</section>

@@ -1,0 +1,56 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var antiforgeryToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
+    var useAppShell = isAuthenticated && !string.Equals(currentPage, "/Index", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" data-theme="uncanny">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="request-verification-token" content="@antiforgeryToken" />
+    <title>@ViewData["Title"] - UncannyPrompt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    @* Previous brand face, kept for future reference:
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@@700&display=swap" /> *@
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>[x-cloak]{display:none!important}</style>
+</head>
+<body class="min-h-screen bg-zinc-50 text-zinc-950">
+    @if (useAppShell)
+    {
+        <div class="drawer lg:drawer-open" x-data>
+            <input id="app-drawer" type="checkbox" class="drawer-toggle" />
+
+            <div class="drawer-content flex min-h-screen flex-col">
+                <partial name="_Topbar" />
+                <main class="flex-1">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <div class="drawer-side z-30">
+                <label for="app-drawer" aria-label="@SharedLocalizer["CloseMenu"]" class="drawer-overlay"></label>
+                <partial name="_Sidebar" />
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("OnboardingOverlay")
+    }
+    else
+    {
+        <main class="min-h-screen">
+            @RenderBody()
+        </main>
+    }
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,89 @@
+@page
+@model UncannyPrompt.WebApp.Areas.Admin.Pages.Settings.IndexModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: Localizer["PageTitle"].Value,
+        KickerParts: new[] { SharedLocalizer["Admin"].Value, Model.ScopeName }))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main lg:col-span-2">
+            @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+            {
+                <div class="app-alert app-alert-info mb-4">@Model.SuccessMessage</div>
+            }
+
+            <form method="get" class="app-filter-bar mb-4">
+                <div class="app-field">
+                    <label asp-for="TenantId" class="app-field-label">@Localizer["ScopeLabel"]</label>
+                    <select asp-for="TenantId" asp-items="Model.TenantOptions" class="app-select" onchange="this.form.submit()"></select>
+                    <p class="app-field-hint">@Localizer["ScopeHint"]</p>
+                </div>
+            </form>
+
+            <form method="post" class="app-card">
+                <div class="app-card-body space-y-5">
+                    <input type="hidden" asp-for="TenantId" />
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <label class="app-toggle-row">
+                            <input asp-for="PublicSharingEnabled" class="toggle toggle-sm mt-0.5" />
+                            <span>
+                                <span class="app-toggle-row-label">@Localizer["PublicSharingLabel"]</span>
+                                <span class="app-toggle-row-hint">@Localizer["PublicSharingHint"]</span>
+                            </span>
+                        </label>
+
+                        <label class="app-toggle-row">
+                            <input asp-for="PromptCopyTrackingEnabled" class="toggle toggle-sm mt-0.5" />
+                            <span>
+                                <span class="app-toggle-row-label">@Localizer["CopyTrackingLabel"]</span>
+                                <span class="app-toggle-row-hint">@Localizer["CopyTrackingHint"]</span>
+                            </span>
+                        </label>
+
+                        <label class="app-toggle-row">
+                            <input asp-for="OnboardingEnabled" class="toggle toggle-sm mt-0.5" />
+                            <span>
+                                <span class="app-toggle-row-label">@Localizer["OnboardingLabel"]</span>
+                                <span class="app-toggle-row-hint">@Localizer["OnboardingHint"]</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div class="app-field">
+                            <label asp-for="PromptVersionHistoryLimit" class="app-field-label">@Localizer["HistoryLimitLabel"]</label>
+                            <input asp-for="PromptVersionHistoryLimit" type="number" min="1" max="200" class="app-input" />
+                            <span asp-validation-for="PromptVersionHistoryLimit" class="text-sm text-rose-700"></span>
+                            <p class="app-field-hint">@Localizer["HistoryLimitHint"]</p>
+                        </div>
+
+                        <div class="app-field">
+                            <label asp-for="MaxPromptsPerProject" class="app-field-label">@Localizer["MaxPromptsLabel"]</label>
+                            <input asp-for="MaxPromptsPerProject" type="number" min="0" max="10000" class="app-input" />
+                            <span asp-validation-for="MaxPromptsPerProject" class="text-sm text-rose-700"></span>
+                            <p class="app-field-hint">@Localizer["MaxPromptsHint"]</p>
+                        </div>
+                    </div>
+
+                    @if (Model.UpdatedAt is { } updatedAt)
+                    {
+                        <p class="text-sm text-zinc-500">@Localizer["UpdatedAt", updatedAt.LocalDateTime]</p>
+                    }
+                </div>
+
+                <div class="app-card-footer">
+                    <button class="btn btn-primary btn-sm rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="app-page-aside">
+            <partial name="Shared/_AdminNav" />
+        </div>
+    </div>
+</section>

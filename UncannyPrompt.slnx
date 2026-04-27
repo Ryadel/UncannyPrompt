@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="src/UncannyPrompt.Application/UncannyPrompt.Application.csproj" />
+  <Project Path="src/UncannyPrompt.Domain/UncannyPrompt.Domain.csproj" />
+  <Project Path="src/UncannyPrompt.Infrastructure/UncannyPrompt.Infrastructure.csproj" />
+  <Project Path="src/UncannyPrompt.Shared/UncannyPrompt.Shared.csproj" />
+  <Project Path="src/UncannyPrompt.WebApp/UncannyPrompt.WebApp.csproj" />
+  <Project Path="tests/UncannyPrompt.UnitTests/UncannyPrompt.UnitTests.csproj" />
+</Solution>

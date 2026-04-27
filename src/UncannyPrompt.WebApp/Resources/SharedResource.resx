@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>UncannyPrompt</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Create folder</value>
+  </data>
+  <data name="CreateProject" xml:space="preserve">
+    <value>Create Project</value>
+  </data>
+  <data name="CreateTenant" xml:space="preserve">
+    <value>Create Tenant</value>
+  </data>
+  <data name="CreateWorkspace" xml:space="preserve">
+    <value>Create Workspace</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="FolderNamePlaceholder" xml:space="preserve">
+    <value>Folder name</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="Grant" xml:space="preserve">
+    <value>Grant</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="CloseMenu" xml:space="preserve">
+    <value>Close menu</value>
+  </data>
+  <data name="CollapseSidebar" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="ExpandSidebar" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="NavAudit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="NavAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="NavGroupCollaboration" xml:space="preserve">
+    <value>Collaboration</value>
+  </data>
+  <data name="NavGroupDevelopers" xml:space="preserve">
+    <value>Developers</value>
+  </data>
+  <data name="NavGroupLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="NavGroupSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="NavHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="NavHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="NavWhatIsUncannyPrompt" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="NavOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="NavAccess" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="NavApi" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="NavApiKeys" xml:space="preserve">
+    <value>Keys</value>
+  </data>
+  <data name="PublicHelpNavigation" xml:space="preserve">
+    <value>Product help navigation</value>
+  </data>
+  <data name="NavGroupWorkspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="NavPrompts" xml:space="preserve">
+    <value>Prompts</value>
+  </data>
+  <data name="OpenMenu" xml:space="preserve">
+    <value>Open menu</value>
+  </data>
+  <data name="ProjectSwitcher" xml:space="preserve">
+    <value>Switch Project</value>
+  </data>
+  <data name="SearchGlobal" xml:space="preserve">
+    <value>Search prompts…</value>
+  </data>
+  <data name="UserMenu" xml:space="preserve">
+    <value>Account menu</value>
+  </data>
+  <data name="WorkspaceSwitcher" xml:space="preserve">
+    <value>Switch Workspace</value>
+  </data>
+  <data name="NavProjects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="NavWorkspaces" xml:space="preserve">
+    <value>Workspaces</value>
+  </data>
+  <data name="NavSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavSharing" xml:space="preserve">
+    <value>Sharing</value>
+  </data>
+  <data name="NavTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="NavVariables" xml:space="preserve">
+    <value>Variables</value>
+  </data>
+  <data name="NavVersions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="NewPrompt" xml:space="preserve">
+    <value>New prompt</value>
+  </data>
+  <data name="NewTenant" xml:space="preserve">
+    <value>New Tenant</value>
+  </data>
+  <data name="NewWorkspace" xml:space="preserve">
+    <value>New Workspace</value>
+  </data>
+  <data name="PermissionEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="PermissionView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="ProjectNamePlaceholder" xml:space="preserve">
+    <value>Project name (e.g. "My Project")</value>
+  </data>
+  <data name="ProjectRoot" xml:space="preserve">
+    <value>Project root</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="Prompt" xml:space="preserve">
+    <value>Prompt</value>
+  </data>
+  <data name="Prompts" xml:space="preserve">
+    <value>Prompts</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Revoke" xml:space="preserve">
+    <value>Revoke</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ScopePersonal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+  <data name="ScopeProject" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="ScopeTenant" xml:space="preserve">
+    <value>Tenant</value>
+  </data>
+  <data name="ScopeUser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="ScopeWorkspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Secret" xml:space="preserve">
+    <value>Secret</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Sharing" xml:space="preserve">
+    <value>Sharing</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TeamNamePlaceholder" xml:space="preserve">
+    <value>Team name (e.g. "Devs")</value>
+  </data>
+  <data name="Tenant" xml:space="preserve">
+    <value>Tenant</value>
+  </data>
+  <data name="Tenants" xml:space="preserve">
+    <value>Tenants</value>
+  </data>
+  <data name="TenantSwitcher" xml:space="preserve">
+    <value>Switch Tenant</value>
+  </data>
+  <data name="TenantPickerHint" xml:space="preserve">
+    <value>Tenant — your top-level account or organization. Everything you create lives inside one.</value>
+  </data>
+  <data name="WorkspacePickerHint" xml:space="preserve">
+    <value>Workspace — a stream of work inside this Tenant. Holds related Projects and sharing rules.</value>
+  </data>
+  <data name="ProjectPickerHint" xml:space="preserve">
+    <value>Project — the container that holds your prompts, folders, versions, and variables.</value>
+  </data>
+  <data name="NoWorkspaceYet" xml:space="preserve">
+    <value>No Workspace yet</value>
+  </data>
+  <data name="NoProjectYet" xml:space="preserve">
+    <value>No Project yet</value>
+  </data>
+  <data name="TitlePlaceholder" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Variables</value>
+  </data>
+  <data name="VersionHistory" xml:space="preserve">
+    <value>Version history</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="WorkspaceNamePlaceholder" xml:space="preserve">
+    <value>Workspace name (e.g. "My Workspace")</value>
+  </data>
+  <data name="Workspaces" xml:space="preserve">
+    <value>Workspaces</value>
+  </data>
+</root>

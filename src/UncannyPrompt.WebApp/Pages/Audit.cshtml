@@ -1,0 +1,45 @@
+@page
+@model AuditModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(Localizer["HeroTitle"].Value))" />
+
+    <div class="app-page-body">
+        <div class="app-page-main">
+            <form method="get" class="app-filter-bar mb-4">
+                <div class="app-field">
+                    <label asp-for="TenantId" class="app-field-label">@Localizer["TenantFilterLabel"]</label>
+                    <select asp-for="TenantId" class="app-select" onchange="this.form.submit()">
+                        <option value="">@Localizer["TenantScopeOption"]</option>
+                        @foreach (var tenant in Model.Tenants)
+                        {
+                            <option value="@tenant.Id">@tenant.Name</option>
+                        }
+                    </select>
+                </div>
+            </form>
+
+            <div class="app-list">
+                @foreach (var item in Model.Events)
+                {
+                    <article class="app-list-item">
+                        <div class="app-list-item-header">
+                            <div>
+                                <h2 class="app-list-item-title">@item.EventType</h2>
+                                <p class="app-list-item-description">@item.EntityType / @item.EntityId</p>
+                            </div>
+                            <time class="text-sm text-zinc-500">@item.CreatedAt.LocalDateTime</time>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(item.DataJson))
+                        {
+                            <pre class="mt-3 overflow-auto whitespace-pre-wrap rounded-md bg-zinc-50 p-3 text-sm text-zinc-700">@item.DataJson</pre>
+                        }
+                    </article>
+                }
+            </div>
+        </div>
+    </div>
+</section>

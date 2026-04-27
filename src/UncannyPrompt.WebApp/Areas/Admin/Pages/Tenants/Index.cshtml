@@ -1,0 +1,39 @@
+@page
+@model UncannyPrompt.WebApp.Areas.Admin.Pages.Tenants.IndexModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: Localizer["PageTitle"].Value,
+        KickerParts: new[] { SharedLocalizer["Admin"].Value }))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main lg:col-span-2">
+            <div class="app-list">
+                @foreach (var tenant in Model.Tenants)
+                {
+                    <article class="app-list-item">
+                        <div class="app-list-item-header">
+                            <div>
+                                <h2 class="app-list-item-title">@tenant.Name</h2>
+                                <p class="app-list-item-description">@tenant.Kind</p>
+                            </div>
+                            <a class="btn btn-outline btn-sm rounded-lg" asp-area="Admin" asp-page="/Settings/Index" asp-route-tenantId="@tenant.Id">@Localizer["Configure"]</a>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span class="badge rounded-md">@Localizer["MembersCount", tenant.MemberCount]</span>
+                            <span class="badge badge-outline rounded-md">@Localizer["WorkspacesCount", tenant.WorkspaceCount]</span>
+                            <span class="badge badge-outline rounded-md">@tenant.CreatedAt.LocalDateTime</span>
+                        </div>
+                    </article>
+                }
+            </div>
+        </div>
+
+        <div class="app-page-aside">
+            <partial name="Shared/_AdminNav" />
+        </div>
+    </div>
+</section>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="TitleCreate" xml:space="preserve"><value>Create Project</value></data>
+  <data name="TitleEdit" xml:space="preserve"><value>Edit Project</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
+  <data name="NameHint" xml:space="preserve"><value>A short, recognizable name for the initiative this Project represents.</value></data>
+  <data name="DescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="OptionalLabel" xml:space="preserve"><value>optional</value></data>
+  <data name="DescriptionHint" xml:space="preserve"><value>What this Project is about. Helps collaborators understand its scope.</value></data>
+  <data name="WorkspaceLabel" xml:space="preserve"><value>Workspace</value></data>
+  <data name="WorkspaceHint" xml:space="preserve"><value>The Workspace this Project belongs to.</value></data>
+  <data name="PrerequisiteTitle" xml:space="preserve"><value>Create a Workspace first</value></data>
+  <data name="PrerequisiteBody" xml:space="preserve"><value>A Project lives inside a Workspace. Create one to continue.</value></data>
+  <data name="PrerequisiteAction" xml:space="preserve"><value>Create your first Workspace</value></data>
+  <data name="ErrorWorkspaceRequired" xml:space="preserve"><value>A Project requires a Workspace.</value></data>
+  <data name="ErrorNameRequired" xml:space="preserve"><value>Project name is required.</value></data>
+</root>

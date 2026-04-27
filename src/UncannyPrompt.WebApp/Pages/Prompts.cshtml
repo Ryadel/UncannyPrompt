@@ -1,0 +1,221 @@
+@page
+@model PromptsModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section x-data="promptBoard('@Model.Scope.ProjectId')" x-init="init()" class="app-page">
+
+    <div class="app-page-header">
+        <div class="app-page-header-content">
+            <div class="min-w-0">
+                <p class="app-page-kicker hidden lg:block">
+                    @Model.Scope.TenantName <span class="text-zinc-300">/</span> @Model.Scope.WorkspaceName
+                </p>
+                <div class="flex items-center gap-1">
+                    <h1 class="app-page-title truncate">@Model.Scope.ProjectName</h1>
+                    @if (Model.Projects.Count > 1)
+                    {
+                        <details class="dropdown">
+                            <summary class="btn btn-ghost btn-xs rounded-md text-zinc-500 hover:text-zinc-800" aria-label="@Localizer["SwitchProject"]" title="@Localizer["SwitchProject"]">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                            </summary>
+                            <ul class="dropdown-content menu z-10 mt-1 w-64 rounded-lg border border-zinc-200 bg-white p-2 shadow-md">
+                                <li class="menu-title px-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">@SharedLocalizer["Projects"]</li>
+                                @foreach (var project in Model.Projects)
+                                {
+                                    <li>
+                                        <button type="button"
+                                                class="rounded-md text-sm"
+                                                :class="filters.projectId === '@project.Id' ? 'bg-uncanny-50 font-semibold text-uncanny-900' : 'text-zinc-700'"
+                                                @@click="selectProject('@project.Id'); $el.closest('details').open = false">
+                                            @project.Name
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </details>
+                    }
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-sm gap-2 rounded-lg" asp-page="/Prompts/Edit" asp-route-projectId="@Model.Scope.ProjectId">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    @SharedLocalizer["NewPrompt"]
+                </a>
+                <a class="btn btn-outline btn-sm rounded-lg" asp-page="/Variables" asp-route-projectId="@Model.Scope.ProjectId">@SharedLocalizer["Variables"]</a>
+                <a class="btn btn-outline btn-sm rounded-lg" asp-page="/Versions">@SharedLocalizer["Versions"]</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-1 flex-col lg:grid lg:grid-cols-[16rem_minmax(0,1fr)_22rem]">
+
+        <aside class="border-zinc-200 bg-white lg:border-r">
+            <div class="flex h-12 items-center justify-between border-b border-zinc-200 px-4">
+                <span class="text-sm font-semibold text-zinc-700">@Localizer["FiltersTitle"]</span>
+                <button type="button"
+                        class="text-xs text-zinc-500 hover:text-zinc-700 hover:underline"
+                        @@click="filters.query=''; filters.folderId=''; filters.tag=''; filters.favoritesOnly=false; loadPrompts()">@Localizer["ResetFilters"]</button>
+            </div>
+
+            <div class="space-y-5 p-4">
+                <div class="app-field">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">@SharedLocalizer["Search"]</span>
+                    <input class="app-input" x-model.debounce.300ms="filters.query" @@input="loadPrompts()" placeholder="@Localizer["SearchPlaceholder"]" />
+                </div>
+
+                <label class="flex cursor-pointer items-center gap-2 text-sm text-zinc-700">
+                    <input type="checkbox" class="checkbox checkbox-sm" x-model="filters.favoritesOnly" @@change="loadPrompts()" />
+                    <span>@Localizer["FavoritesOnly"]</span>
+                </label>
+
+                <div>
+                    <p class="mb-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">@SharedLocalizer["Folders"]</p>
+                    <div class="space-y-1">
+                        <button type="button"
+                                class="w-full rounded-md px-2.5 py-1.5 text-left text-sm transition"
+                                :class="!filters.folderId ? 'bg-uncanny-50 font-medium text-uncanny-900' : 'text-zinc-700 hover:bg-zinc-100'"
+                                @@click="filters.folderId = ''; loadPrompts()">@SharedLocalizer["ProjectRoot"]</button>
+                        @foreach (var folder in Model.Folders)
+                        {
+                            <button type="button"
+                                    class="w-full rounded-md px-2.5 py-1.5 text-left text-sm transition"
+                                    :class="filters.folderId === '@folder.Id' ? 'bg-uncanny-50 font-medium text-uncanny-900' : 'text-zinc-700 hover:bg-zinc-100'"
+                                    @@click="filters.folderId = '@folder.Id'; loadPrompts()">@folder.Name</button>
+                        }
+                        @if (!Model.Folders.Any())
+                        {
+                            <p class="px-2.5 py-1 text-xs text-zinc-400">@Localizer["NoFolders"]</p>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <p class="mb-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">@SharedLocalizer["Tags"]</p>
+                    @if (Model.Tags.Any())
+                    {
+                        <div class="flex flex-wrap gap-1.5">
+                            @foreach (var tag in Model.Tags)
+                            {
+                                <button type="button"
+                                        class="rounded-md border px-2 py-0.5 text-xs transition"
+                                        :class="filters.tag === '@tag.Name' ? 'border-uncanny-600 bg-uncanny-50 text-uncanny-900 font-medium' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400'"
+                                        @@click="filters.tag = filters.tag === '@tag.Name' ? '' : '@tag.Name'; loadPrompts()">@tag.Name</button>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-xs text-zinc-400">@Localizer["NoTags"]</p>
+                    }
+                </div>
+            </div>
+        </aside>
+
+        <main class="min-w-0 space-y-4 p-4 lg:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <span class="text-sm text-zinc-500"><span x-text="prompts.length"></span> @SharedLocalizer["Prompts"]</span>
+                <select class="app-select w-auto" x-model="filters.sort" @@change="loadPrompts()">
+                    <option value="updated">@Localizer["SortRecentlyUpdated"]</option>
+                    <option value="alpha">@Localizer["SortAlphabetical"]</option>
+                </select>
+            </div>
+
+            <template x-if="loading">
+                <div class="app-alert app-alert-info">@Localizer["LoadingPrompts"]</div>
+            </template>
+
+            <div class="app-list">
+                <template x-for="prompt in prompts" :key="prompt.id">
+                    <article class="app-list-item transition hover:border-uncanny-600">
+                        <div class="app-list-item-header">
+                            <button class="min-w-0 text-left" @@click="selectPrompt(prompt)">
+                                <h2 class="app-list-item-title truncate" x-text="prompt.title"></h2>
+                                <p class="app-list-item-description line-clamp-2" x-text='prompt.summary || @Json.Serialize(Localizer["NoSummaryYet"].Value)'></p>
+                            </button>
+                            <div class="flex shrink-0 gap-1">
+                                <button class="btn btn-ghost btn-sm rounded-lg" @@click="toggleFavorite(prompt)" x-text='prompt.isFavorite ? @Json.Serialize(Localizer["SavedFavorite"].Value) : @Json.Serialize(Localizer["SaveFavorite"].Value)'></button>
+                                <button class="btn btn-ghost btn-sm rounded-lg" @@click="togglePinned(prompt)" x-text='prompt.isPinned ? @Json.Serialize(Localizer["PinnedPrompt"].Value) : @Json.Serialize(Localizer["PinPrompt"].Value)'></button>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <template x-for="tag in prompt.tags" :key="tag">
+                                <span class="badge badge-outline rounded-md" x-text="tag"></span>
+                            </template>
+                            <span class="badge rounded-md" x-text="'v' + prompt.currentVersionNumber"></span>
+                            <span class="badge rounded-md" x-text="prompt.status"></span>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </main>
+
+        <aside class="min-w-0 space-y-4 border-zinc-200 bg-white p-4 lg:border-l lg:p-6">
+            <template x-if="selected">
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-start justify-between gap-3">
+                            <h2 class="text-xl font-bold text-zinc-950" x-text="selected.title"></h2>
+                            <a class="btn btn-outline btn-xs rounded-lg" x-bind:href="'/Prompts/Edit/' + selected.id">@SharedLocalizer["Edit"]</a>
+                        </div>
+                        <p class="mt-1 text-sm text-zinc-600" x-text="selected.summary"></p>
+                    </div>
+
+                    <pre class="max-h-80 overflow-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-sm leading-6 text-zinc-900" x-text="selected.content"></pre>
+
+                    <div class="app-card">
+                        <div class="space-y-3 p-4">
+                            <template x-for="name in placeholders" :key="name">
+                                <div class="app-field">
+                                    <span class="app-field-label" x-text="name"></span>
+                                    <input class="app-input" x-model="values[name]" />
+                                </div>
+                            </template>
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <button class="btn btn-outline btn-sm rounded-lg" @@click="copyRaw()">@Localizer["CopyRaw"]</button>
+                                <button class="btn btn-primary btn-sm rounded-lg" @@click="copyResolved()">@Localizer["CopyResolved"]</button>
+                            </div>
+                            <p class="text-xs text-uncanny-700" x-text="copyMessage"></p>
+                            <p class="text-xs text-rose-700" x-show="missing.length" x-text='@Json.Serialize(Localizer["MissingPrefix"].Value) + missing.join(", ")'></p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button class="btn btn-outline btn-sm w-full rounded-lg" @@click="loadVersions()">@SharedLocalizer["VersionHistory"]</button>
+                        <template x-for="version in versions" :key="version.id">
+                            <div class="rounded-lg border border-zinc-200 bg-white p-2.5 text-xs shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <strong x-text="'v' + version.versionNumber"></strong>
+                                    <button class="btn btn-ghost btn-xs rounded-lg" @@click="restoreVersion(version)">@SharedLocalizer["Restore"]</button>
+                                </div>
+                                <p class="text-zinc-600" x-text='version.label || version.changelog || @Json.Serialize(Localizer["NoVersionLabel"].Value)'></p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <template x-if="!selected">
+                <div class="app-alert app-alert-info">@Localizer["EmptySelection"]</div>
+            </template>
+        </aside>
+    </div>
+
+    <dialog class="modal" :open="showVariables">
+        <div class="modal-box rounded-xl">
+            <h3 class="text-xl font-bold text-zinc-950">@SharedLocalizer["Variables"]</h3>
+            <div class="mt-4 space-y-3">
+                @foreach (var variable in Model.Variables)
+                {
+                    <div class="rounded-lg border border-zinc-200 p-3">
+                        <div class="text-sm font-semibold text-zinc-900">@variable.Name</div>
+                        <div class="mt-1 text-sm text-zinc-600">@variable.Value</div>
+                    </div>
+                }
+            </div>
+            <div class="modal-action">
+                <button class="btn btn-primary rounded-lg" @@click="showVariables=false">@SharedLocalizer["Done"]</button>
+            </div>
+        </div>
+    </dialog>
+</section>

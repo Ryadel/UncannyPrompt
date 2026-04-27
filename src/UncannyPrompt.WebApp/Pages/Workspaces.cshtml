@@ -1,0 +1,71 @@
+@page
+@model WorkspacesModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: SharedLocalizer["Workspaces"].Value,
+        KickerParts: new[] { Model.ScopeState.CurrentTenantName ?? SharedLocalizer["Tenant"].Value },
+        Action: new AppPageHeaderAction(SharedLocalizer["NewWorkspace"].Value, "/Workspaces/Edit")))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main space-y-4 lg:col-span-2">
+            @if (Model.Workspaces.Count == 0)
+            {
+                <partial name="_EmptyState" model="@(new EmptyStateModel(
+                    Title: Localizer["EmptyTitle"].Value,
+                    Description: Localizer["EmptyDescription"].Value,
+                    PrimaryActionLabel: Localizer["EmptyAction"].Value,
+                    PrimaryActionPage: "/Workspaces/Edit",
+                    PrimaryActionFragment: null,
+                    Icon: EmptyStateIcon.Workspace))" />
+            }
+            else
+            {
+                @foreach (var workspace in Model.Workspaces)
+                {
+                    var projectCount = Model.ProjectCountsByWorkspace.GetValueOrDefault(workspace.Id);
+                    var promptCount = Model.PromptCountsByWorkspace.GetValueOrDefault(workspace.Id);
+
+                    <article class="group relative rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-uncanny-300 hover:shadow-md">
+                        <a class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-uncanny-600"
+                           asp-page="/Projects"
+                           asp-route-tenantId="@workspace.TenantId"
+                           asp-route-workspaceId="@workspace.Id"
+                           aria-label="@Localizer["OpenProjects", workspace.Name]"></a>
+
+                        <div class="relative flex flex-wrap items-start justify-between gap-3">
+                            <div>
+                                <h2 class="flex items-center gap-2 text-xl font-bold text-zinc-950 transition group-hover:text-uncanny-800">
+                                    <span>@workspace.Name</span>
+                                    <svg class="h-4 w-4 text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-uncanny-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                                </h2>
+                                @if (!string.IsNullOrWhiteSpace(workspace.Description))
+                                {
+                                    <p class="mt-1 text-sm text-zinc-600">@workspace.Description</p>
+                                }
+                            </div>
+                            <div class="relative z-20 flex flex-wrap items-center justify-end gap-2">
+                                <span class="text-sm text-zinc-500">@Localizer["ProjectCount", projectCount]</span>
+                                <span class="text-sm text-zinc-300" aria-hidden="true">/</span>
+                                <span class="text-sm text-zinc-500">@Localizer["PromptCount", promptCount]</span>
+                                <a class="btn btn-ghost btn-sm gap-1.5 rounded-lg text-zinc-700" asp-page="/Workspaces/Edit" asp-route-id="@workspace.Id">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                    @SharedLocalizer["Edit"]
+                                </a>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@workspace.Id">
+                                    <button class="btn btn-ghost btn-sm gap-1.5 rounded-lg text-rose-700" type="submit">
+                                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                                        @SharedLocalizer["Delete"]
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                }
+            }
+        </div>
+    </div>
+</section>

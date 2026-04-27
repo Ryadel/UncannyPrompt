@@ -1,0 +1,43 @@
+@page
+@model SettingsModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: SharedLocalizer["Settings"].Value,
+        Action: new AppPageHeaderAction(SharedLocalizer["NewWorkspace"].Value, "/Workspaces/Edit")))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main lg:col-span-2">
+            <div class="app-list">
+                <article class="app-card">
+                    <div class="app-card-body">
+                        <h2 class="app-list-item-title">@SharedLocalizer["Workspaces"]</h2>
+                        <div class="grid gap-2">
+                            @foreach (var workspace in Model.Workspaces)
+                            {
+                                <div class="rounded-md border border-zinc-200 px-3 py-2">
+                                    <div class="text-sm font-semibold text-zinc-900">@workspace.Name</div>
+                                    @{
+                                        var workspaceProjects = Model.Projects.Where(x => x.WorkspaceId == workspace.Id).ToList();
+                                    }
+                                    @if (workspaceProjects.Count > 0)
+                                    {
+                                        <div class="mt-2 flex flex-wrap gap-2">
+                                            @foreach (var project in workspaceProjects)
+                                            {
+                                                <span class="badge badge-outline rounded-md">@project.Name</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

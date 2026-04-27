@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="TitleCreate" xml:space="preserve"><value>Create Prompt</value></data>
+  <data name="TitleEdit" xml:space="preserve"><value>Edit Prompt</value></data>
+  <data name="EditPrompt" xml:space="preserve"><value>Edit Prompt</value></data>
+  <data name="PrerequisiteBody" xml:space="preserve"><value>A prompt requires a Project. Create a Project first, then return here to add prompts.</value></data>
+  <data name="TitleLabel" xml:space="preserve"><value>Title</value></data>
+  <data name="SummaryLabel" xml:space="preserve"><value>Summary</value></data>
+  <data name="ContentLabel" xml:space="preserve"><value>Content</value></data>
+  <data name="StatusLabel" xml:space="preserve"><value>Status</value></data>
+  <data name="ChangelogLabel" xml:space="preserve"><value>Changelog</value></data>
+  <data name="PromptContentPlaceholder" xml:space="preserve"><value>Prompt content with {{variables}}</value></data>
+  <data name="ShortSummaryPlaceholder" xml:space="preserve"><value>Short summary</value></data>
+  <data name="TagsPlaceholder" xml:space="preserve"><value>tags, comma, separated</value></data>
+  <data name="VersionChangelogPlaceholder" xml:space="preserve"><value>Version changelog</value></data>
+  <data name="ErrorProjectRequired" xml:space="preserve"><value>A prompt requires a Project.</value></data>
+  <data name="ErrorTitleAndContentRequired" xml:space="preserve"><value>Prompt title and content are required.</value></data>
+</root>

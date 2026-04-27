@@ -1,0 +1,91 @@
+@page
+@model UncannyPrompt.WebApp.Pages.Shares.Grant.EditModel
+@using UncannyPrompt.Domain
+@{
+    ViewData["Title"] = Localizer["GrantAccess"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(Localizer["GrantAccess"].Value, new[] { SharedLocalizer["Sharing"].Value }))" />
+
+    <div class="max-w-3xl">
+        <article class="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">@Model.ErrorMessage</div>
+            }
+
+            <form method="post" class="space-y-4">
+                <label class="form-control">
+                    <span class="label-text">@Localizer["TargetTypeLabel"]</span>
+                    <select asp-for="TargetType" class="select select-bordered rounded-lg">
+                        <option value="@ShareTargetType.Project">@SharedLocalizer["Project"]</option>
+                        <option value="@ShareTargetType.Folder">@SharedLocalizer["Folder"]</option>
+                        <option value="@ShareTargetType.Prompt">@SharedLocalizer["Prompt"]</option>
+                    </select>
+                </label>
+
+                <label class="form-control">
+                    <span class="label-text">@Localizer["TargetLabel"]</span>
+                    <select asp-for="TargetId" class="select select-bordered rounded-lg">
+                        <optgroup label="@SharedLocalizer["Projects"]">
+                            @foreach (var project in Model.Projects)
+                            {
+                                <option value="@project.Id">@project.Name</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@SharedLocalizer["Folders"]">
+                            @foreach (var folder in Model.Folders)
+                            {
+                                <option value="@folder.Id">@folder.Name</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@SharedLocalizer["Prompts"]">
+                            @foreach (var prompt in Model.Prompts)
+                            {
+                                <option value="@prompt.Id">@prompt.Title</option>
+                            }
+                        </optgroup>
+                    </select>
+                </label>
+
+                <input asp-for="UserId" class="input input-bordered w-full rounded-lg" placeholder="@Localizer["UserIdPlaceholder"]" />
+
+                <label class="form-control">
+                    <span class="label-text">@SharedLocalizer["Tenant"]</span>
+                    <select asp-for="TenantId" class="select select-bordered rounded-lg">
+                        <option value="">@Localizer["NoTenantRecipient"]</option>
+                        @foreach (var tenant in Model.Tenants)
+                        {
+                            <option value="@tenant.Id">@tenant.Name</option>
+                        }
+                    </select>
+                </label>
+
+                <label class="form-control">
+                    <span class="label-text">@SharedLocalizer["Workspace"]</span>
+                    <select asp-for="WorkspaceId" class="select select-bordered rounded-lg">
+                        <option value="">@Localizer["NoWorkspaceRecipient"]</option>
+                        @foreach (var workspace in Model.Workspaces)
+                        {
+                            <option value="@workspace.Id">@workspace.Name</option>
+                        }
+                    </select>
+                </label>
+
+                <label class="form-control">
+                    <span class="label-text">@Localizer["PermissionLabel"]</span>
+                    <select asp-for="Permission" class="select select-bordered rounded-lg">
+                        <option value="@SharePermission.View">@SharedLocalizer["PermissionView"]</option>
+                        <option value="@SharePermission.Edit">@SharedLocalizer["PermissionEdit"]</option>
+                    </select>
+                </label>
+
+                <div class="flex flex-wrap gap-2">
+                    <button class="btn btn-primary rounded-lg" type="submit">@SharedLocalizer["Grant"]</button>
+                    <a class="btn btn-ghost rounded-lg" asp-page="/Shares">@SharedLocalizer["Cancel"]</a>
+                </div>
+            </form>
+        </article>
+    </div>
+</section>

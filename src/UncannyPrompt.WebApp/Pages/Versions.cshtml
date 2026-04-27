@@ -1,0 +1,89 @@
+@page
+@model VersionsModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(SharedLocalizer["VersionHistory"].Value))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main">
+            <form method="get" class="app-filter-bar mb-4">
+                <div class="app-field">
+                    <label asp-for="PromptId" class="app-field-label">@Localizer["PromptFilterLabel"]</label>
+                    <select asp-for="PromptId" class="app-select" onchange="this.form.submit()">
+                        @foreach (var prompt in Model.Prompts)
+                        {
+                            <option value="@prompt.Id">@prompt.Title</option>
+                        }
+                    </select>
+                </div>
+            </form>
+
+            <div class="app-list">
+                @foreach (var version in Model.Versions)
+                {
+                    <article class="app-list-item">
+                        <div class="app-list-item-header">
+                            <div>
+                                <h2 class="app-list-item-title">v@version.VersionNumber @version.Label</h2>
+                                @if (!string.IsNullOrWhiteSpace(version.Changelog))
+                                {
+                                    <p class="app-list-item-description">@version.Changelog</p>
+                                }
+                            </div>
+                            @if (Model.PromptId is not null)
+                            {
+                                <form method="post" asp-page-handler="Restore" class="flex flex-wrap items-center gap-2">
+                                    <input type="hidden" name="promptId" value="@Model.PromptId" />
+                                    <input type="hidden" name="versionId" value="@version.Id" />
+                                    <input class="app-input" name="changelog" placeholder="@Localizer["RestoreNotePlaceholder"]" />
+                                    <button class="btn btn-ghost btn-sm rounded-lg" type="submit">@SharedLocalizer["Restore"]</button>
+                                </form>
+                            }
+                        </div>
+                        <pre class="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-md bg-zinc-50 p-3 text-sm text-zinc-700">@version.Content</pre>
+                    </article>
+                }
+            </div>
+        </div>
+
+        <aside class="app-page-aside">
+            <form method="get" class="app-card">
+                <div class="app-card-body">
+                    <h2 class="app-list-item-title">@Localizer["Compare"]</h2>
+                    <input type="hidden" asp-for="PromptId" />
+
+                    <div class="app-field">
+                        <label asp-for="LeftVersionId" class="app-field-label">@Localizer["LeftVersionLabel"]</label>
+                        <select asp-for="LeftVersionId" class="app-select">
+                            @foreach (var version in Model.Versions)
+                            {
+                                <option value="@version.Id">v@version.VersionNumber</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="app-field">
+                        <label asp-for="RightVersionId" class="app-field-label">@Localizer["RightVersionLabel"]</label>
+                        <select asp-for="RightVersionId" class="app-select">
+                            @foreach (var version in Model.Versions)
+                            {
+                                <option value="@version.Id">v@version.VersionNumber</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="app-card-footer">
+                    <button class="btn btn-primary btn-sm rounded-lg" type="submit">@Localizer["ShowDiff"]</button>
+                </div>
+            </form>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Diff))
+            {
+                <pre class="mt-4 max-h-80 overflow-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-4 text-sm text-zinc-700 shadow-sm">@Model.Diff</pre>
+            }
+        </aside>
+    </div>
+</section>

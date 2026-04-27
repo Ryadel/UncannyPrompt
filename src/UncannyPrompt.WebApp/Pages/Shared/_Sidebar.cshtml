@@ -1,0 +1,171 @@
+@using Microsoft.AspNetCore.Authorization
+@using UncannyPrompt.Shared
+@inject IAuthorizationService AuthorizationService
+@{
+    var canAccessAdmin = (await AuthorizationService.AuthorizeAsync(User, AppConstants.AdminOnlyPolicy)).Succeeded;
+}
+
+@functions {
+    bool IsActivePage(string page)
+    {
+        var current = ViewContext.RouteData.Values["page"]?.ToString();
+        if (string.Equals(page, "/Developer/Api/Index", StringComparison.OrdinalIgnoreCase))
+        {
+            return string.Equals(current, "/Developer/Api/Index", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(current, "/Developer/Api/Edit", StringComparison.OrdinalIgnoreCase);
+        }
+
+        return string.Equals(current, page, StringComparison.OrdinalIgnoreCase);
+    }
+
+    string NavLinkClass(string page)
+    {
+        var current = ViewContext.RouteData.Values["page"]?.ToString();
+        var area = ViewContext.RouteData.Values["area"]?.ToString();
+        if (string.Equals(page, "/Admin", StringComparison.OrdinalIgnoreCase))
+        {
+            return string.Equals(area, "Admin", StringComparison.OrdinalIgnoreCase)
+                ? "flex items-center gap-3 rounded-lg border-l-2 border-uncanny-600 bg-uncanny-50 px-3 py-2 text-sm font-medium text-uncanny-900"
+                : "flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950";
+        }
+
+        var isActive = IsActivePage(page);
+        return isActive
+            ? "flex items-center gap-3 rounded-lg border-l-2 border-uncanny-600 bg-uncanny-50 px-3 py-2 text-sm font-medium text-uncanny-900"
+            : "flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950";
+    }
+
+    string? AriaCurrent(string page)
+    {
+        return IsActivePage(page) ? "page" : null;
+    }
+}
+
+<aside class="flex min-h-full flex-col border-r border-zinc-200 bg-white transition-[width] duration-150"
+       :class="$store.shell.collapsed ? 'w-16' : 'w-60'">
+
+    <div class="flex h-14 items-center gap-2 border-b border-zinc-200 px-3">
+        <a asp-page="/Prompts" class="flex items-center gap-2 overflow-hidden" aria-label="@SharedLocalizer["AppName"]">
+            <img src="~/img/logo.svg" alt="" class="h-7 w-7 shrink-0" />
+            <span class="brand-wordmark truncate text-[1.2rem]" x-show="!$store.shell.collapsed" x-cloak><span class="brand-wordmark-primary">Uncanny</span><span class="brand-wordmark-accent">Prompt</span></span>
+        </a>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-2 py-3">
+        <p class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavGroupWorkspace"]</p>
+        <ul class="mb-4 space-y-1">
+            <li>
+                <a asp-page="/Prompts" class="@NavLinkClass("/Prompts")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Prompts")" title="@SharedLocalizer["NavPrompts"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavPrompts"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Workspaces" class="@NavLinkClass("/Workspaces")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Workspaces")" title="@SharedLocalizer["NavWorkspaces"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.91a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavWorkspaces"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Projects" class="@NavLinkClass("/Projects")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Projects")" title="@SharedLocalizer["NavProjects"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavProjects"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Versions" class="@NavLinkClass("/Versions")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Versions")" title="@SharedLocalizer["NavVersions"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.74 9.74 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavVersions"]</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavGroupLibrary"]</p>
+        <ul class="mb-4 space-y-1">
+            <li>
+                <a asp-page="/Variables" class="@NavLinkClass("/Variables")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Variables")" title="@SharedLocalizer["NavVariables"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h16"/><path d="m7 7 5 10 5-10"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavVariables"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Tags" class="@NavLinkClass("/Tags")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Tags")" title="@SharedLocalizer["NavTags"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavTags"]</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavGroupCollaboration"]</p>
+        <ul class="mb-4 space-y-1">
+            <li>
+                <a asp-page="/Shares" class="@NavLinkClass("/Shares")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Shares")" title="@SharedLocalizer["NavSharing"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavSharing"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Audit" class="@NavLinkClass("/Audit")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Audit")" title="@SharedLocalizer["NavAudit"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavAudit"]</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavGroupDevelopers"]</p>
+        <ul class="mb-4 space-y-1">
+            <li>
+                <a asp-page="/Developer/Api/Docs" class="@NavLinkClass("/Developer/Api/Docs")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Developer/Api/Docs")" title="@SharedLocalizer["NavApi"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/><path d="m14.5 4-5 16"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavApi"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Developer/Api/Index" class="@NavLinkClass("/Developer/Api/Index")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Developer/Api/Index")" title="@SharedLocalizer["NavApiKeys"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15 8 2 2"/><path d="m17 6 2 2"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavApiKeys"]</span>
+                </a>
+            </li>
+        </ul>
+
+        <p class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavGroupSystem"]</p>
+        <ul class="space-y-1">
+            @if (canAccessAdmin)
+            {
+                <li>
+                    <a asp-area="Admin" asp-page="/Index" class="@NavLinkClass("/Admin")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" title="@SharedLocalizer["NavAdmin"]">
+                        <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.6 8 9 4.6-.4 8-4 8-9V6l-8-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+                        <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavAdmin"]</span>
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-page="/Settings" class="@NavLinkClass("/Settings")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Settings")" title="@SharedLocalizer["NavSettings"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavSettings"]</span>
+                </a>
+            </li>
+            <li>
+                <a asp-page="/Help/Index" class="@NavLinkClass("/Help/Index")" :class="$store.shell.collapsed ? '!justify-center !px-2' : ''" aria-current="@AriaCurrent("/Help/Index")" title="@SharedLocalizer["NavHelp"]">
+                    <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.83 1c-.54 1.1-1.92 1.48-2.54 2.36-.23.32-.38.72-.38 1.14"/><path d="M12 17h.01"/></svg>
+                    <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["NavHelp"]</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="border-t border-zinc-200 p-2">
+        <div class="px-3 pb-2 pt-1 text-[11px] text-zinc-400" x-show="!$store.shell.collapsed" x-cloak>
+            &copy; @DateTime.UtcNow.Year <a class="hover:text-uncanny-700 hover:underline" href="https://www.ryadel.com/" target="_blank" rel="noopener">Ryadel</a>
+        </div>
+        <button type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100"
+                :class="$store.shell.collapsed ? 'justify-center px-2' : ''"
+                @@click="$store.shell.toggle()"
+                :aria-label="$store.shell.collapsed ? '@SharedLocalizer["ExpandSidebar"]' : '@SharedLocalizer["CollapseSidebar"]'"
+                :title="$store.shell.collapsed ? '@SharedLocalizer["ExpandSidebar"]' : '@SharedLocalizer["CollapseSidebar"]'">
+            <svg class="h-4 w-4 shrink-0 transition-transform" :class="$store.shell.collapsed ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
+            <span x-show="!$store.shell.collapsed" x-cloak>@SharedLocalizer["CollapseSidebar"]</span>
+        </button>
+    </div>
+</aside>

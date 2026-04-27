@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="TitleCreate" xml:space="preserve"><value>Create Folder</value></data>
+  <data name="TitleEdit" xml:space="preserve"><value>Edit Folder</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
+  <data name="NameHint" xml:space="preserve"><value>A short, recognizable name to group prompts under this folder.</value></data>
+  <data name="ProjectLabel" xml:space="preserve"><value>Project</value></data>
+  <data name="ProjectHint" xml:space="preserve"><value>The Project this folder belongs to.</value></data>
+  <data name="ParentLabel" xml:space="preserve"><value>Parent folder</value></data>
+  <data name="ParentHint" xml:space="preserve"><value>Leave at Project root, or nest this folder under another one.</value></data>
+  <data name="PrerequisiteTitle" xml:space="preserve"><value>Create a Project first</value></data>
+  <data name="PrerequisiteBody" xml:space="preserve"><value>A folder lives inside a Project. Create one to continue.</value></data>
+  <data name="PrerequisiteAction" xml:space="preserve"><value>Create Project</value></data>
+  <data name="ErrorProjectRequired" xml:space="preserve"><value>A folder requires a Project.</value></data>
+  <data name="ErrorNameRequired" xml:space="preserve"><value>Folder name is required.</value></data>
+</root>

@@ -1,0 +1,60 @@
+@page
+@model SharesModel
+@using UncannyPrompt.Domain
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: SharedLocalizer["Sharing"].Value,
+        KickerParts: new[] { Model.Scope.TenantName, Model.Scope.WorkspaceName },
+        Action: new AppPageHeaderAction(Localizer["GrantAccess"].Value, "/Shares/Grant/Edit")))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main lg:col-span-2">
+            @if (!string.IsNullOrWhiteSpace(Model.PublicToken))
+            {
+                <div class="app-alert app-alert-info mb-4">
+                    <div class="font-semibold text-zinc-900">@Localizer["PublicLinkToken"]</div>
+                    <code class="mt-2 block break-all text-zinc-700">@Model.PublicToken</code>
+                </div>
+            }
+
+            <div class="mb-4 flex justify-end">
+                <a class="btn btn-outline btn-sm rounded-lg" asp-page="/Shares/PublicLinks/Edit">@Localizer["PublicLink"]</a>
+            </div>
+
+            <div class="app-list">
+                @foreach (var grant in Model.Grants)
+                {
+                    <article class="app-list-item">
+                        <div class="app-list-item-header">
+                            <div>
+                                <h2 class="app-list-item-title">@grant.TargetType / @grant.TargetId</h2>
+                                <p class="app-list-item-description">@grant.Permission</p>
+                            </div>
+                            <form method="post" asp-page-handler="DeleteGrant" asp-route-id="@grant.Id">
+                                <button class="btn btn-ghost btn-sm rounded-lg text-rose-700" type="submit">@SharedLocalizer["Revoke"]</button>
+                            </form>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            @if (grant.UserId is not null)
+                            {
+                                <span class="badge rounded-md">@SharedLocalizer["User"] @grant.UserId</span>
+                            }
+                            @if (grant.TenantId is not null)
+                            {
+                                <span class="badge rounded-md">@SharedLocalizer["Tenant"] @grant.TenantId</span>
+                            }
+                            @if (grant.WorkspaceId is not null)
+                            {
+                                <span class="badge rounded-md">@SharedLocalizer["Workspace"] @grant.WorkspaceId</span>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+        </div>
+    </div>
+</section>

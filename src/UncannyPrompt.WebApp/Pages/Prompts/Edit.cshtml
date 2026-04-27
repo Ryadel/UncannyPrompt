@@ -1,0 +1,88 @@
+@page "{id?}"
+@model UncannyPrompt.WebApp.Pages.Prompts.EditModel
+@using UncannyPrompt.Domain
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(Model.PageTitle, new[] { SharedLocalizer["Prompts"].Value }))" />
+
+    <div class="max-w-4xl">
+        <article class="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">@Model.ErrorMessage</div>
+            }
+
+            @if (Model.MustCreateProjectFirst)
+            {
+                <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                    @Localizer["PrerequisiteBody"]
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <a class="btn btn-primary rounded-lg" asp-page="/Projects/Edit">@SharedLocalizer["CreateProject"]</a>
+                    <a class="btn btn-ghost rounded-lg" asp-page="/Prompts">@SharedLocalizer["Cancel"]</a>
+                </div>
+            }
+            else
+            {
+                <form method="post" class="space-y-4">
+                    <input type="hidden" asp-for="Id" />
+
+                    <label class="form-control">
+                        <span class="label-text">@SharedLocalizer["Project"]</span>
+                        <select asp-for="ProjectId" asp-items="Model.ProjectOptions" class="select select-bordered rounded-lg"></select>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@SharedLocalizer["Folder"]</span>
+                        <select asp-for="FolderId" asp-items="Model.FolderOptions" class="select select-bordered rounded-lg">
+                            <option value="">@SharedLocalizer["ProjectRoot"]</option>
+                        </select>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["TitleLabel"]</span>
+                        <input asp-for="Title" class="input input-bordered rounded-lg" placeholder="@SharedLocalizer["TitlePlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["SummaryLabel"]</span>
+                        <input asp-for="Summary" class="input input-bordered rounded-lg" placeholder="@Localizer["ShortSummaryPlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["ContentLabel"]</span>
+                        <textarea asp-for="PromptContent" class="textarea textarea-bordered min-h-52 rounded-lg" placeholder="@Localizer["PromptContentPlaceholder"]"></textarea>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@SharedLocalizer["Tags"]</span>
+                        <input asp-for="TagsText" class="input input-bordered rounded-lg" placeholder="@Localizer["TagsPlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["StatusLabel"]</span>
+                        <select asp-for="Status" class="select select-bordered rounded-lg">
+                            @foreach (var status in Enum.GetValues<PromptStatus>())
+                            {
+                                <option value="@status">@status</option>
+                            }
+                        </select>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["ChangelogLabel"]</span>
+                        <input asp-for="Changelog" class="input input-bordered rounded-lg" placeholder="@Localizer["VersionChangelogPlaceholder"]" />
+                    </label>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button class="btn btn-primary rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+                        <a class="btn btn-ghost rounded-lg" asp-page="/Prompts">@SharedLocalizer["Cancel"]</a>
+                    </div>
+                </form>
+            }
+        </article>
+    </div>
+</section>

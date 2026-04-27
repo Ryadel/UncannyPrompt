@@ -1,0 +1,33 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+
+    string HelpLinkClass(string page)
+    {
+        var isActive = string.Equals(currentPage, page, StringComparison.OrdinalIgnoreCase);
+        return isActive
+            ? "rounded-lg bg-uncanny-50 px-3 py-2 text-sm font-semibold text-uncanny-900"
+            : "rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950";
+    }
+}
+
+<header class="border-b border-zinc-200 bg-white">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-4">
+        <a asp-page="/Index" class="flex items-center gap-3" aria-label="@SharedLocalizer["AppName"]">
+            <img src="~/img/logo.svg" alt="" class="h-10 w-10" />
+            <span class="brand-wordmark text-2xl"><span class="brand-wordmark-primary">Uncanny</span><span class="brand-wordmark-accent">Prompt</span></span>
+        </a>
+
+        <nav class="order-last flex w-full flex-wrap items-center gap-1 md:order-none md:ml-5 md:w-auto" aria-label="@SharedLocalizer["PublicHelpNavigation"]">
+            <a asp-page="/Index" class="@HelpLinkClass("/Index")">@SharedLocalizer["NavHome"]</a>
+            <a asp-page="/Help/Index" class="@HelpLinkClass("/Help/Index")">@SharedLocalizer["NavWhatIsUncannyPrompt"]</a>
+            <a asp-page="/Help/Overview" class="@HelpLinkClass("/Help/Overview")">@SharedLocalizer["NavOverview"]</a>
+            <a asp-page="/Help/Access" class="@HelpLinkClass("/Help/Access")">@SharedLocalizer["NavAccess"]</a>
+            <a asp-page="/Help/Api" class="@HelpLinkClass("/Help/Api")">@SharedLocalizer["NavApi"]</a>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-2">
+            <a class="btn btn-primary btn-sm rounded-lg" asp-page="/Account/Login" asp-route-intent="signup" asp-route-returnUrl="/Prompts">@SharedLocalizer["CreateAccount"]</a>
+            <a class="btn btn-ghost btn-sm rounded-lg" asp-page="/Account/Login" asp-route-returnUrl="/Prompts">@SharedLocalizer["Login"]</a>
+        </div>
+    </div>
+</header>

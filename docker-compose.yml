@@ -1,0 +1,59 @@
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      Database__Host: ${Database__Host}
+      Database__Port: ${Database__Port}
+      Database__Name: ${Database__Name}
+      Database__Username: ${Database__Username}
+      Database__Password: ${Database__Password}
+      Database__TrustServerCertificate: ${Database__TrustServerCertificate}
+      Database__ApplyMigrationsOnStartup: ${Database__ApplyMigrationsOnStartup:-true}
+      Security__SecretEncryptionKey: ${Security__SecretEncryptionKey}
+      Security__ApiKeyHashKey: ${Security__ApiKeyHashKey}
+      Authentication__Google__ClientId: ${Authentication__Google__ClientId}
+      Authentication__Google__ClientSecret: ${Authentication__Google__ClientSecret}
+      Authentication__EntraId__Instance: ${Authentication__EntraId__Instance}
+      Authentication__EntraId__TenantId: ${Authentication__EntraId__TenantId}
+      Authentication__EntraId__ClientId: ${Authentication__EntraId__ClientId}
+      Authentication__EntraId__ClientSecret: ${Authentication__EntraId__ClientSecret}
+      Authentication__EntraId__CallbackPath: ${Authentication__EntraId__CallbackPath}
+      Authentication__GitHub__ClientId: ${Authentication__GitHub__ClientId}
+      Authentication__GitHub__ClientSecret: ${Authentication__GitHub__ClientSecret}
+    ports:
+      - "${Docker__WebAppPort}:${Docker__WebAppContainerPort}"
+    networks:
+      - uncannyprompt
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${Database__Password}
+      MSSQL_PID: ${SQLSERVER_PID}
+    ports:
+      - "${Docker__SqlServerPublicPort}:${Docker__SqlServerContainerPort}"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - uncannyprompt
+
+networks:
+  uncannyprompt:
+    driver: bridge
+
+volumes:
+  sqlserver-data:

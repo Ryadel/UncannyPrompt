@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>Create API Key</value></data>
+  <data name="CopyKeyTitle" xml:space="preserve"><value>Copy this key now</value></data>
+  <data name="CopyKeyDescription" xml:space="preserve"><value>For security reasons, this API key is shown only once. Store it in a password manager or secret store before leaving this page.</value></data>
+  <data name="CopyButton" xml:space="preserve"><value>Copy</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
+  <data name="NamePlaceholder" xml:space="preserve"><value>CI workflow, internal tool, local scripts...</value></data>
+  <data name="NameHint" xml:space="preserve"><value>Use a name that makes the key easy to recognize later.</value></data>
+  <data name="ExpiresLabel" xml:space="preserve"><value>Expiration date</value></data>
+  <data name="OptionalLabel" xml:space="preserve"><value>optional</value></data>
+  <data name="ExpiresHint" xml:space="preserve"><value>Leave empty for a key that does not expire automatically.</value></data>
+  <data name="GenerateButton" xml:space="preserve"><value>Generate key</value></data>
+  <data name="NameRequired" xml:space="preserve"><value>Name is required.</value></data>
+  <data name="ExpirationFuture" xml:space="preserve"><value>Expiration date must be in the future.</value></data>
+  <data name="CreateSuccess" xml:space="preserve"><value>API key created. Copy it now: it will not be shown again.</value></data>
+  <data name="CreateFailed" xml:space="preserve"><value>API key could not be created.</value></data>
+</root>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="DefaultValuePlaceholder" xml:space="preserve"><value>Default value</value></data>
+  <data name="SaveVariable" xml:space="preserve"><value>Save variable</value></data>
+  <data name="PrerequisiteBody" xml:space="preserve"><value>A Project variable requires a Project. Create a Project first, then return here to add variables.</value></data>
+  <data name="ScopeLabel" xml:space="preserve"><value>Scope</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
+  <data name="DescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="DefaultValueLabel" xml:space="preserve"><value>Default value</value></data>
+  <data name="ValueLabel" xml:space="preserve"><value>Value</value></data>
+  <data name="ValuePlaceholder" xml:space="preserve"><value>Value</value></data>
+  <data name="VariableNamePlaceholder" xml:space="preserve"><value>variable_name</value></data>
+  <data name="ErrorProjectRequired" xml:space="preserve"><value>Project variables require a Project.</value></data>
+  <data name="ErrorNameRequired" xml:space="preserve"><value>Variable name is required.</value></data>
+</root>

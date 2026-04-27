@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Compare" xml:space="preserve"><value>Compare</value></data>
+  <data name="LeftVersionLabel" xml:space="preserve"><value>Base version</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Versions</value></data>
+  <data name="PromptFilterLabel" xml:space="preserve"><value>Prompt</value></data>
+  <data name="RightVersionLabel" xml:space="preserve"><value>Compare against</value></data>
+  <data name="RestoreNotePlaceholder" xml:space="preserve"><value>Restore note</value></data>
+  <data name="ShowDiff" xml:space="preserve"><value>Show diff</value></data>
+</root>

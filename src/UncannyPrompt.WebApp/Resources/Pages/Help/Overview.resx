@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="PageHeading" xml:space="preserve">
+    <value>How UncannyPrompt is organized</value>
+  </data>
+  <data name="Intro" xml:space="preserve">
+    <value>UncannyPrompt treats prompts as managed assets. The catalog starts from a Tenant, narrows into Workspaces and Projects, then stores prompts with folders, variables, tags, versions, and sharing metadata.</value>
+  </data>
+  <data name="BuildingBlocksTitle" xml:space="preserve">
+    <value>Building blocks</value>
+  </data>
+  <data name="NameHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MeaningHeader" xml:space="preserve">
+    <value>Meaning</value>
+  </data>
+  <data name="UsageHeader" xml:space="preserve">
+    <value>Usage</value>
+  </data>
+  <data name="TenantMeaning" xml:space="preserve">
+    <value>The top-level account or organization boundary.</value>
+  </data>
+  <data name="TenantUsage" xml:space="preserve">
+    <value>Owns users, roles, Workspaces, and shared governance.</value>
+  </data>
+  <data name="WorkspaceMeaning" xml:space="preserve">
+    <value>A major stream of work inside a Tenant.</value>
+  </data>
+  <data name="WorkspaceUsage" xml:space="preserve">
+    <value>Groups related Projects and keeps navigation focused.</value>
+  </data>
+  <data name="ProjectMeaning" xml:space="preserve">
+    <value>The operational container for prompt work.</value>
+  </data>
+  <data name="ProjectUsage" xml:space="preserve">
+    <value>Holds prompts, folders, variables, sharing, and versions.</value>
+  </data>
+  <data name="PromptMeaning" xml:space="preserve">
+    <value>A reusable AI instruction with metadata and history.</value>
+  </data>
+  <data name="PromptUsage" xml:space="preserve">
+    <value>Can be edited, versioned, resolved with variables, copied, shared, and published.</value>
+  </data>
+  <data name="WorkflowTitle" xml:space="preserve">
+    <value>Typical workflow</value>
+  </data>
+  <data name="WorkflowStepTenant" xml:space="preserve">
+    <value>Sign in and work inside your Personal Tenant or another Tenant you can access.</value>
+  </data>
+  <data name="WorkflowStepWorkspace" xml:space="preserve">
+    <value>Choose or create a Workspace for a product area, department, customer, or initiative.</value>
+  </data>
+  <data name="WorkflowStepProject" xml:space="preserve">
+    <value>Create a Project to contain a concrete prompt library or workflow.</value>
+  </data>
+  <data name="WorkflowStepPrompt" xml:space="preserve">
+    <value>Add prompts, organize them in folders, tag them, and use variables for repeatable inputs.</value>
+  </data>
+  <data name="WorkflowStepShare" xml:space="preserve">
+    <value>Share access with collaborators, publish public links when needed, and review changes through versions and audit.</value>
+  </data>
+  <data name="TraceabilityTitle" xml:space="preserve">
+    <value>Traceability</value>
+  </data>
+  <data name="TraceabilityVersions" xml:space="preserve">
+    <value>Version history keeps meaningful prompt edits visible and restorable.</value>
+  </data>
+  <data name="TraceabilityVariables" xml:space="preserve">
+    <value>Variables make prompts reusable without hard-coding names, values, or secrets into the prompt body.</value>
+  </data>
+  <data name="TraceabilityAudit" xml:space="preserve">
+    <value>Audit records help teams understand who changed, shared, copied, or restored important prompt content.</value>
+  </data>
+</root>

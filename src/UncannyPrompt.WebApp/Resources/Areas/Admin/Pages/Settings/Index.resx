@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>App settings</value></data>
+  <data name="ScopeLabel" xml:space="preserve"><value>Scope</value></data>
+  <data name="ScopeHint" xml:space="preserve"><value>Choose whether these values apply globally or override one Tenant.</value></data>
+  <data name="GlobalOption" xml:space="preserve"><value>Global settings</value></data>
+  <data name="PublicSharingLabel" xml:space="preserve"><value>Public sharing</value></data>
+  <data name="PublicSharingHint" xml:space="preserve"><value>Allow public prompt links for this scope.</value></data>
+  <data name="CopyTrackingLabel" xml:space="preserve"><value>Copy tracking</value></data>
+  <data name="CopyTrackingHint" xml:space="preserve"><value>Allow copy counters and last-used timestamps.</value></data>
+  <data name="OnboardingLabel" xml:space="preserve"><value>Onboarding</value></data>
+  <data name="OnboardingHint" xml:space="preserve"><value>Show guided onboarding where supported.</value></data>
+  <data name="HistoryLimitLabel" xml:space="preserve"><value>Prompt version history limit</value></data>
+  <data name="HistoryLimitHint" xml:space="preserve"><value>Allowed range: 1 to 200 versions.</value></data>
+  <data name="MaxPromptsLabel" xml:space="preserve"><value>Max prompts per Project</value></data>
+  <data name="MaxPromptsHint" xml:space="preserve"><value>Use 0 for no configured limit.</value></data>
+  <data name="UpdatedAt" xml:space="preserve"><value>Last updated: {0}</value></data>
+  <data name="HistoryLimitValidation" xml:space="preserve"><value>History limit must be between 1 and 200.</value></data>
+  <data name="MaxPromptsValidation" xml:space="preserve"><value>Max prompts must be between 0 and 10000.</value></data>
+  <data name="SavedMessage" xml:space="preserve"><value>Settings saved for {0}.</value></data>
+</root>

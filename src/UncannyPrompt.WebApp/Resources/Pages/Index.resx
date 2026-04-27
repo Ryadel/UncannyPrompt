@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="PageTitle" xml:space="preserve"><value>Prompt management for teams</value></data>
+	<data name="GitHubLink" xml:space="preserve"><value>Fork me on GitHub</value></data>
+	<data name="Login" xml:space="preserve"><value>Login</value></data>
+	<data name="CreateAccount" xml:space="preserve"><value>Create account</value></data>
+	<data name="OpenApp" xml:space="preserve"><value>Open app</value></data>
+	<data name="ViewOnGitHub" xml:space="preserve"><value>View on GitHub</value></data>
+	<data name="HeroKicker" xml:space="preserve"><value>Open Source AI Prompt Management Platform</value></data>
+	<data name="HeroTitle" xml:space="preserve"><value>Organize, version, share, and reuse AI prompts.</value></data>
+	<data name="HeroSubtitle" xml:space="preserve"><value>UncannyPrompt gives teams a structured home for reusable AI prompts, variables, access rules, public links, and audit trails, without scattering critical knowledge across chats and documents.</value></data>
+	<data name="BadgeOpenSource" xml:space="preserve"><value>Open source</value></data>
+	<data name="BadgeMit" xml:space="preserve"><value>MIT licensed</value></data>
+	<data name="BadgeSelfHosted" xml:space="preserve"><value>Self-hosted</value></data>
+	<data name="BadgeSaas" xml:space="preserve"><value>SaaS ready</value></data>
+	<data name="PreviewStatus" xml:space="preserve"><value>Live library</value></data>
+	<data name="PreviewFilters" xml:space="preserve"><value>Projects</value></data>
+	<data name="PreviewFolderOne" xml:space="preserve"><value>Support playbooks</value></data>
+	<data name="PreviewFolderTwo" xml:space="preserve"><value>Engineering</value></data>
+	<data name="PreviewFolderThree" xml:space="preserve"><value>Product research</value></data>
+	<data name="PreviewPromptOneTitle" xml:space="preserve"><value>Customer ticket triage</value></data>
+	<data name="PreviewPromptOneBody" xml:space="preserve"><value>Resolve variables, copy the final prompt, and keep every meaningful edit in version history.</value></data>
+	<data name="PreviewPromptTwoTitle" xml:space="preserve"><value>Release note draft</value></data>
+	<data name="PreviewPromptTwoBody" xml:space="preserve"><value>Shared with the product team and ready to publish through a revocable public link.</value></data>
+	<data name="PreviewTagSupport" xml:space="preserve"><value>support</value></data>
+	<data name="PreviewTagShared" xml:space="preserve"><value>shared</value></data>
+	<data name="FeatureCatalogTitle" xml:space="preserve"><value>Prompt catalog</value></data>
+	<data name="FeatureCatalogBody" xml:space="preserve"><value>Group prompts by Tenant, Workspace, Project, and folder, then enrich them with tags, notes, favorites, pins, and status metadata.</value></data>
+	<data name="FeatureVersionsTitle" xml:space="preserve"><value>Version history</value></data>
+	<data name="FeatureVersionsBody" xml:space="preserve"><value>Track meaningful content changes, restore previous versions, and keep important prompt knowledge traceable over time.</value></data>
+	<data name="FeatureVariablesTitle" xml:space="preserve"><value>Variables and sharing</value></data>
+	<data name="FeatureVariablesBody" xml:space="preserve"><value>Resolve scoped variables, protect secrets, grant access by Project, folder, or prompt, and create revocable public links.</value></data>
+	<data name="SelfHostedTitle" xml:space="preserve"><value>Self-host it</value></data>
+	<data name="SelfHostedBody" xml:space="preserve"><value>Run UncannyPrompt in your own infrastructure with Docker Compose, SQL Server, configurable authentication, and complete control over data and deployment.</value></data>
+	<data name="SaasTitle" xml:space="preserve"><value>Use the SaaS</value></data>
+	<data name="SaasBody" xml:space="preserve"><value>Use UncannyPrompt through uncannyprompt.com when you want prompt management without maintaining servers, databases, backups, or upgrades.</value></data>
+	<data name="OpenSourceTitle" xml:space="preserve"><value>Open source, MIT licensed</value></data>
+	<data name="OpenSourceBody" xml:space="preserve"><value>The self-hosted edition of UncannyPrompt is open source and released under the MIT License, so developers and organizations can inspect it, adapt it, and contribute back.</value></data>
+</root>

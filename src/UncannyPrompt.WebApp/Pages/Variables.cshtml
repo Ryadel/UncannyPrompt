@@ -1,0 +1,71 @@
+@page
+@model VariablesModel
+@using UncannyPrompt.Domain
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    var newVariableRouteValues = Model.ProjectId is Guid pid
+        ? new Dictionary<string, string> { ["projectId"] = pid.ToString() }
+        : null;
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: SharedLocalizer["Variables"].Value,
+        KickerParts: new[] { Model.Scope.TenantName, Model.Scope.WorkspaceName },
+        Action: new AppPageHeaderAction(Localizer["NewVariable"].Value, "/Variables/Edit", newVariableRouteValues)))" />
+
+    <div class="app-page-grid">
+        <div class="app-page-main lg:col-span-2">
+            <form method="get" class="app-filter-bar mb-4">
+                <div class="app-field">
+                    <label asp-for="ProjectId" class="app-field-label">@Localizer["ProjectFilterLabel"]</label>
+                    <select asp-for="ProjectId" class="app-select" onchange="this.form.submit()">
+                        @foreach (var project in Model.Projects)
+                        {
+                            <option value="@project.Id">@project.Name</option>
+                        }
+                    </select>
+                </div>
+            </form>
+
+            <div class="app-list">
+                @foreach (var variable in Model.Variables)
+                {
+                    <article class="app-list-item">
+                        <div class="app-list-item-header">
+                            <div>
+                                <h2 class="app-list-item-title">@variable.Name</h2>
+                                @if (!string.IsNullOrWhiteSpace(variable.Description))
+                                {
+                                    <p class="app-list-item-description">@variable.Description</p>
+                                }
+                            </div>
+                            <div class="flex gap-2">
+                                <a class="btn btn-outline btn-sm rounded-lg" asp-page="/Variables/Edit" asp-route-id="@variable.Id" asp-route-projectId="@Model.ProjectId">@SharedLocalizer["Edit"]</a>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@variable.Id">
+                                    <input type="hidden" asp-for="ProjectId" />
+                                    <button class="btn btn-ghost btn-sm rounded-lg text-rose-700" type="submit">@SharedLocalizer["Delete"]</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span class="badge rounded-md">@variable.Scope</span>
+                            @if (variable.IsRequired)
+                            {
+                                <span class="badge rounded-md">@SharedLocalizer["Required"]</span>
+                            }
+                            @if (variable.IsSecret)
+                            {
+                                <span class="badge rounded-md">@SharedLocalizer["Secret"]</span>
+                            }
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(variable.Value))
+                        {
+                            <p class="mt-3 rounded-md bg-zinc-50 px-3 py-2 text-sm text-zinc-700">@variable.Value</p>
+                        }
+                    </article>
+                }
+            </div>
+        </div>
+    </div>
+</section>

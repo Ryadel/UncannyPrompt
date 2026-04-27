@@ -1,0 +1,16 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(ViewData["Title"]?.ToString() ?? string.Empty))" />
+
+    <div class="app-page-body">
+        <div class="app-page-main">
+            <article class="rounded-lg border border-zinc-200 bg-white p-5">
+                <p class="text-zinc-600">@Localizer["Body"]</p>
+            </article>
+        </div>
+    </div>
+</section>

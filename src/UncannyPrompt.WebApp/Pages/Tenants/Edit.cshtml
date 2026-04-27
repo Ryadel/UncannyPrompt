@@ -1,0 +1,34 @@
+@page "{id?}"
+@model UncannyPrompt.WebApp.Pages.Tenants.EditModel
+@{
+    var titleString = Localizer["TitleCreate"].Value;
+    ViewData["Title"] = titleString;
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: titleString,
+        KickerParts: new[] { SharedLocalizer["Tenants"].Value }))" />
+
+    <div class="mx-auto mt-6 max-w-2xl sm:mt-8">
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="app-alert app-alert-error mb-4">@Model.ErrorMessage</div>
+        }
+
+        <form method="post" class="app-card">
+            <div class="app-card-body">
+                <div class="app-field">
+                    <label asp-for="Name" class="app-field-label">@Localizer["NameLabel"]</label>
+                    <input asp-for="Name" class="app-input" placeholder="@SharedLocalizer["TeamNamePlaceholder"]" />
+                    <p class="app-field-hint">@Localizer["NameHint"]</p>
+                </div>
+            </div>
+
+            <div class="app-card-footer">
+                <a class="btn btn-ghost btn-sm rounded-lg" asp-page="/Settings">@SharedLocalizer["Cancel"]</a>
+                <button class="btn btn-primary btn-sm rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+            </div>
+        </form>
+    </div>
+</section>

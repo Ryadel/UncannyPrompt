@@ -1,0 +1,220 @@
+@using System.Security.Claims
+@using UncannyPrompt.Application
+@using UncannyPrompt.WebApp.Security
+@inject ICurrentUserContext CurrentUserContext
+@inject IAppScopeService AppScopeService
+@{
+    var displayName = User.Identity?.Name ?? "?";
+    var email = User.FindFirst(ClaimTypes.Email)?.Value;
+    var initial = (displayName.Length > 0 ? displayName[0] : '?').ToString().ToUpperInvariant();
+    var scopeState = CurrentUserContext.UserId is Guid currentUserId
+        ? await AppScopeService.GetStateAsync(User, currentUserId)
+        : new AppScopeState(null, null, null, null, null, null, [], [], []);
+    var reloadUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+
+<header class="sticky top-0 z-50 flex h-14 items-center gap-2 border-b border-zinc-200 bg-white px-3 lg:px-4">
+
+    <label for="app-drawer" class="btn btn-ghost btn-sm rounded-lg lg:hidden" aria-label="@SharedLocalizer["OpenMenu"]">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </label>
+
+    <a asp-page="/Prompts" class="flex items-center gap-2 lg:hidden" aria-label="@SharedLocalizer["AppName"]">
+        <img src="~/img/logo.svg" alt="" class="h-7 w-7" />
+        <span class="brand-wordmark"><span class="brand-wordmark-primary">Uncanny</span><span class="brand-wordmark-accent">Prompt</span></span>
+    </a>
+
+    <div class="ml-1 hidden items-center gap-1 text-sm xl:flex"
+         data-scope-switcher
+         data-reload-url="@reloadUrl"
+         data-current-tenant="@(scopeState.CurrentTenantId?.ToString() ?? string.Empty)"
+         data-current-workspace="@(scopeState.CurrentWorkspaceId?.ToString() ?? string.Empty)"
+         data-current-project="@(scopeState.CurrentProjectId?.ToString() ?? string.Empty)">
+
+        @{
+            var hasWorkspaces = scopeState.Workspaces.Count > 0;
+            var hasProjects = scopeState.Projects.Count > 0;
+        }
+
+        @* Tenant picker *@
+        <div class="relative" x-data="{ open: false }" @@click.outside="open = false" @@keydown.escape.window="open = false">
+            <button type="button"
+                    class="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-sm text-zinc-900 transition hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-uncanny-600"
+                    title="@SharedLocalizer["TenantPickerHint"]"
+                    aria-haspopup="listbox"
+                    :aria-expanded="open.toString()"
+                    @@click="open = !open">
+                <svg class="h-4 w-4 shrink-0 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 8.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5"/><path d="M9 21V12h6v9"/></svg>
+                <span class="max-w-[10rem] truncate font-medium">@(scopeState.CurrentTenantName ?? SharedLocalizer["Tenant"].Value)</span>
+                <svg class="h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform" :class="open ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <ul x-show="open" x-cloak x-transition.opacity.duration.100ms
+                role="listbox"
+                class="absolute left-0 top-full z-30 mt-1 max-h-80 w-64 overflow-y-auto rounded-lg border border-zinc-200 bg-white p-1 shadow-lg">
+                @foreach (var tenant in scopeState.Tenants)
+                {
+                    var isCurrent = scopeState.CurrentTenantId == tenant.Id;
+                    <li>
+                        <button type="button"
+                                data-scope-option
+                                data-scope-type="tenant"
+                                data-scope-id="@tenant.Id"
+                                role="option"
+                                aria-selected="@(isCurrent ? "true" : "false")"
+                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-zinc-700 hover:bg-zinc-50 @(isCurrent ? "bg-zinc-50 font-medium text-zinc-950" : null)">
+                            <svg class="h-4 w-4 shrink-0 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 8.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5"/><path d="M9 21V12h6v9"/></svg>
+                            <span class="min-w-0 flex-1 truncate">@tenant.Name</span>
+                            @if (isCurrent)
+                            {
+                                <svg class="h-4 w-4 shrink-0 text-uncanny-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                            }
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <span class="text-zinc-300" aria-hidden="true">/</span>
+
+        @* Workspace picker *@
+        <div class="relative" x-data="{ open: false }" @@click.outside="open = false" @@keydown.escape.window="open = false">
+            <button type="button"
+                    class="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-sm text-zinc-900 transition hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-uncanny-600 disabled:cursor-not-allowed disabled:opacity-60"
+                    title="@SharedLocalizer["WorkspacePickerHint"]"
+                    aria-haspopup="listbox"
+                    :aria-expanded="open.toString()"
+                    @(hasWorkspaces ? null : "disabled")
+                    @@click="open = !open">
+                <svg class="h-4 w-4 shrink-0 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.91a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+                <span class="max-w-[10rem] truncate font-medium @(hasWorkspaces ? null : "text-zinc-400 italic")">@(scopeState.CurrentWorkspaceName ?? SharedLocalizer["NoWorkspaceYet"].Value)</span>
+                @if (hasWorkspaces)
+                {
+                    <svg class="h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform" :class="open ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                }
+            </button>
+            @if (hasWorkspaces)
+            {
+                <ul x-show="open" x-cloak x-transition.opacity.duration.100ms
+                    role="listbox"
+                    class="absolute left-0 top-full z-30 mt-1 max-h-80 w-64 overflow-y-auto rounded-lg border border-zinc-200 bg-white p-1 shadow-lg">
+                    @foreach (var workspace in scopeState.Workspaces)
+                    {
+                        var isCurrent = scopeState.CurrentWorkspaceId == workspace.Id;
+                        <li>
+                            <button type="button"
+                                    data-scope-option
+                                    data-scope-type="workspace"
+                                    data-scope-id="@workspace.Id"
+                                    role="option"
+                                    aria-selected="@(isCurrent ? "true" : "false")"
+                                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-zinc-700 hover:bg-zinc-50 @(isCurrent ? "bg-zinc-50 font-medium text-zinc-950" : null)">
+                                <svg class="h-4 w-4 shrink-0 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.91a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+                                <span class="min-w-0 flex-1 truncate">@workspace.Name</span>
+                                @if (isCurrent)
+                                {
+                                    <svg class="h-4 w-4 shrink-0 text-uncanny-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                                }
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <span class="text-zinc-300" aria-hidden="true">/</span>
+
+        @* Project picker *@
+        <div class="relative" x-data="{ open: false }" @@click.outside="open = false" @@keydown.escape.window="open = false">
+            <button type="button"
+                    class="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-sm text-zinc-900 transition hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-uncanny-600 disabled:cursor-not-allowed disabled:opacity-60"
+                    title="@SharedLocalizer["ProjectPickerHint"]"
+                    aria-haspopup="listbox"
+                    :aria-expanded="open.toString()"
+                    @(hasProjects ? null : "disabled")
+                    @@click="open = !open">
+                <svg class="h-4 w-4 shrink-0 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <span class="max-w-[10rem] truncate font-medium @(hasProjects ? null : "text-zinc-400 italic")">@(scopeState.CurrentProjectName ?? SharedLocalizer["NoProjectYet"].Value)</span>
+                @if (hasProjects)
+                {
+                    <svg class="h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform" :class="open ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                }
+            </button>
+            @if (hasProjects)
+            {
+                <ul x-show="open" x-cloak x-transition.opacity.duration.100ms
+                    role="listbox"
+                    class="absolute left-0 top-full z-30 mt-1 max-h-80 w-64 overflow-y-auto rounded-lg border border-zinc-200 bg-white p-1 shadow-lg">
+                    @foreach (var project in scopeState.Projects)
+                    {
+                        var isCurrent = scopeState.CurrentProjectId == project.Id;
+                        <li>
+                            <button type="button"
+                                    data-scope-option
+                                    data-scope-type="project"
+                                    data-scope-id="@project.Id"
+                                    role="option"
+                                    aria-selected="@(isCurrent ? "true" : "false")"
+                                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-zinc-700 hover:bg-zinc-50 @(isCurrent ? "bg-zinc-50 font-medium text-zinc-950" : null)">
+                                <svg class="h-4 w-4 shrink-0 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                <span class="min-w-0 flex-1 truncate">@project.Name</span>
+                                @if (isCurrent)
+                                {
+                                    <svg class="h-4 w-4 shrink-0 text-uncanny-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                                }
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+    <div class="relative ml-auto hidden w-full max-w-md md:block">
+        <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search"
+               data-global-search
+               class="input input-bordered input-sm w-full rounded-lg pl-9 pr-14 disabled:cursor-not-allowed disabled:opacity-70"
+               placeholder="@SharedLocalizer["SearchGlobal"]"
+               disabled
+               aria-label="@SharedLocalizer["SearchGlobal"]" />
+        <kbd class="kbd kbd-xs absolute right-2 top-1/2 -translate-y-1/2 hidden lg:inline-flex">⌘K</kbd>
+    </div>
+
+    <button type="button" class="btn btn-ghost btn-sm rounded-lg md:hidden ms-auto" aria-label="@SharedLocalizer["SearchGlobal"]" disabled>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <div class="dropdown dropdown-end z-50 ml-1">
+        <button tabindex="0" type="button" class="flex h-9 w-9 items-center justify-center rounded-full bg-uncanny-100 text-sm font-semibold text-uncanny-800 hover:bg-uncanny-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-uncanny-600" aria-label="@SharedLocalizer["UserMenu"]">
+            @initial
+        </button>
+        <ul tabindex="0" class="dropdown-content menu z-50 mt-2 w-64 rounded-lg border border-zinc-200 bg-white p-2 shadow-xl ring-1 ring-black/5">
+            <li class="px-2 py-1.5">
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-sm font-semibold text-zinc-900">@displayName</span>
+                    @if (!string.IsNullOrEmpty(email))
+                    {
+                        <span class="text-xs text-zinc-500">@email</span>
+                    }
+                </div>
+            </li>
+            <li class="my-1 h-px bg-zinc-100" aria-hidden="true"></li>
+            <li>
+                <a asp-page="/Settings" class="rounded-md text-sm text-zinc-700 hover:bg-zinc-100">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2"/><circle cx="12" cy="12" r="3"/></svg>
+                    @SharedLocalizer["Settings"]
+                </a>
+            </li>
+            <li class="my-1 h-px bg-zinc-100" aria-hidden="true"></li>
+            <li>
+                <form method="post" action="/account/logout" class="contents">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm text-rose-700 hover:bg-rose-50">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        @SharedLocalizer["SignOut"]
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</header>

@@ -1,0 +1,63 @@
+@page "{id?}"
+@model UncannyPrompt.WebApp.Pages.Folders.EditModel
+@{
+    var titleString = (Model.IsCreateMode ? Localizer["TitleCreate"] : Localizer["TitleEdit"]).Value;
+    ViewData["Title"] = titleString;
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: titleString,
+        KickerParts: new[] { SharedLocalizer["Projects"].Value }))" />
+
+    <div class="mx-auto mt-6 max-w-2xl sm:mt-8">
+        @if (Model.MustCreateProjectFirst)
+        {
+            <partial name="_EmptyState" model="@(new EmptyStateModel(
+                Title: Localizer["PrerequisiteTitle"].Value,
+                Description: Localizer["PrerequisiteBody"].Value,
+                PrimaryActionLabel: Localizer["PrerequisiteAction"].Value,
+                PrimaryActionPage: "/Projects/Edit",
+                Icon: EmptyStateIcon.Lock,
+                Tone: EmptyStateTone.Blocker))" />
+        }
+        else
+        {
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="app-alert app-alert-error mb-4">@Model.ErrorMessage</div>
+            }
+
+            <form method="post" class="app-card">
+                <div class="app-card-body">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="app-field">
+                        <label asp-for="Name" class="app-field-label">@Localizer["NameLabel"]</label>
+                        <input asp-for="Name" class="app-input" placeholder="@SharedLocalizer["FolderNamePlaceholder"]" />
+                        <p class="app-field-hint">@Localizer["NameHint"]</p>
+                    </div>
+
+                    <div class="app-field app-field-divider">
+                        <label asp-for="ProjectId" class="app-field-label">@Localizer["ProjectLabel"]</label>
+                        <select asp-for="ProjectId" asp-items="Model.ProjectOptions" class="app-select"></select>
+                        <p class="app-field-hint">@Localizer["ProjectHint"]</p>
+                    </div>
+
+                    <div class="app-field">
+                        <label asp-for="ParentFolderId" class="app-field-label">@Localizer["ParentLabel"]</label>
+                        <select asp-for="ParentFolderId" asp-items="Model.ParentFolderOptions" class="app-select">
+                            <option value="">@SharedLocalizer["ProjectRoot"]</option>
+                        </select>
+                        <p class="app-field-hint">@Localizer["ParentHint"]</p>
+                    </div>
+                </div>
+
+                <div class="app-card-footer">
+                    <a class="btn btn-ghost btn-sm rounded-lg" asp-page="/Projects">@SharedLocalizer["Cancel"]</a>
+                    <button class="btn btn-primary btn-sm rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+                </div>
+            </form>
+        }
+    </div>
+</section>

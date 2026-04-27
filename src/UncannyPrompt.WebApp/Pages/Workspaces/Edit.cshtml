@@ -1,0 +1,64 @@
+@page "{id?}"
+@model UncannyPrompt.WebApp.Pages.Workspaces.EditModel
+@{
+    var titleString = (Model.IsCreateMode ? Localizer["TitleCreate"] : Localizer["TitleEdit"]).Value;
+    ViewData["Title"] = titleString;
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(
+        Title: titleString,
+        KickerParts: new[] { SharedLocalizer["Workspaces"].Value }))" />
+
+    <div class="mx-auto mt-6 max-w-2xl sm:mt-8">
+        @if (Model.MustCreateTenantFirst)
+        {
+            <partial name="_EmptyState" model="@(new EmptyStateModel(
+                Title: Localizer["PrerequisiteTitle"].Value,
+                Description: Localizer["PrerequisiteBody"].Value,
+                PrimaryActionLabel: Localizer["PrerequisiteAction"].Value,
+                PrimaryActionPage: "/Tenants/Edit",
+                Icon: EmptyStateIcon.Lock,
+                Tone: EmptyStateTone.Blocker))" />
+        }
+        else
+        {
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="app-alert app-alert-error mb-4">@Model.ErrorMessage</div>
+            }
+
+            <form method="post" class="app-card">
+                <div class="app-card-body">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="app-field">
+                        <label asp-for="Name" class="app-field-label">@Localizer["NameLabel"]</label>
+                        <input asp-for="Name" class="app-input" placeholder="@SharedLocalizer["WorkspaceNamePlaceholder"]" />
+                        <p class="app-field-hint">@Localizer["NameHint"]</p>
+                    </div>
+
+                    <div class="app-field">
+                        <label asp-for="Description" class="app-field-label">
+                            @Localizer["DescriptionLabel"]
+                            <span class="app-field-label-optional">— @Localizer["OptionalLabel"]</span>
+                        </label>
+                        <input asp-for="Description" class="app-input" placeholder="@SharedLocalizer["DescriptionPlaceholder"]" />
+                        <p class="app-field-hint">@Localizer["DescriptionHint"]</p>
+                    </div>
+
+                    <div class="app-field app-field-divider">
+                        <label asp-for="TenantId" class="app-field-label">@Localizer["TenantLabel"]</label>
+                        <select asp-for="TenantId" asp-items="Model.TenantOptions" class="app-select"></select>
+                        <p class="app-field-hint">@Localizer["TenantHint"]</p>
+                    </div>
+                </div>
+
+                <div class="app-card-footer">
+                    <a class="btn btn-ghost btn-sm rounded-lg" asp-page="/Workspaces">@SharedLocalizer["Cancel"]</a>
+                    <button class="btn btn-primary btn-sm rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+                </div>
+            </form>
+        }
+    </div>
+</section>

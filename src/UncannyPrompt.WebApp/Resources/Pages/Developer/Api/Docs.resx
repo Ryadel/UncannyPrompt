@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>API</value></data>
+  <data name="IntroTitle" xml:space="preserve"><value>API reference</value></data>
+  <data name="BaseUrl" xml:space="preserve"><value>Base URL:</value></data>
+  <data name="BackToKeys" xml:space="preserve"><value>Keys</value></data>
+  <data name="OpenSwagger" xml:space="preserve"><value>Open Swagger</value></data>
+  <data name="UseHeaderPrefix" xml:space="preserve"><value>Authenticate requests with</value></data>
+  <data name="UseBearerPrefix" xml:space="preserve"><value>Bearer authentication is also accepted as</value></data>
+  <data name="EndpointsUnderApi" xml:space="preserve"><value>Application endpoints live under</value></data>
+  <data name="QuickstartTitle" xml:space="preserve"><value>Quickstart</value></data>
+  <data name="ExamplesTitle" xml:space="preserve"><value>Examples</value></data>
+  <data name="GetWorkspaceTitle" xml:space="preserve"><value>Get a Workspace by ID</value></data>
+  <data name="ListProjectsTitle" xml:space="preserve"><value>List Projects by Workspace</value></data>
+  <data name="GetProjectTitle" xml:space="preserve"><value>Get a Project by ID</value></data>
+  <data name="ListPromptsTitle" xml:space="preserve"><value>List prompts</value></data>
+  <data name="GetPromptTitle" xml:space="preserve"><value>Get a prompt by ID</value></data>
+  <data name="PromptsByTagTitle" xml:space="preserve"><value>List prompts by tag</value></data>
+  <data name="PromptsByFolderTitle" xml:space="preserve"><value>List prompts by folder</value></data>
+</root>

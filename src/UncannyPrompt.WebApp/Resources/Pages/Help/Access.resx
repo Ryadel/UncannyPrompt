@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="PageHeading" xml:space="preserve">
+    <value>Access, roles, and scope</value>
+  </data>
+  <data name="Intro" xml:space="preserve">
+    <value>UncannyPrompt separates platform administration from Tenant collaboration. Users sign in to the app, work in a current Tenant, Workspace, and Project, and receive capabilities through roles or explicit shares.</value>
+  </data>
+  <data name="SigningInTitle" xml:space="preserve">
+    <value>Signing in</value>
+  </data>
+  <data name="SigningInProviders" xml:space="preserve">
+    <value>The app can use configured external providers such as Google, GitHub, or Microsoft Entra ID.</value>
+  </data>
+  <data name="SigningInProvisioning" xml:space="preserve">
+    <value>A valid external identity can provision an active application user.</value>
+  </data>
+  <data name="SigningInPersonalTenant" xml:space="preserve">
+    <value>When a user has no Tenant yet, the app creates a Personal Tenant for that user.</value>
+  </data>
+  <data name="SigningInSignOut" xml:space="preserve">
+    <value>Signing out clears the application session without changing the external identity provider.</value>
+  </data>
+  <data name="ScopeTitle" xml:space="preserve">
+    <value>Current scope</value>
+  </data>
+  <data name="ScopeCurrentTenant" xml:space="preserve">
+    <value>The Tenant switcher defines the top-level boundary for Workspaces, Projects, members, and audit.</value>
+  </data>
+  <data name="ScopeWorkspaceProject" xml:space="preserve">
+    <value>The selected Workspace and Project keep listings focused and let users move from Workspaces to Projects and from Projects to prompts.</value>
+  </data>
+  <data name="ScopePublicLinks" xml:space="preserve">
+    <value>Public links are separate from normal membership and can expose selected prompt content through revocable tokens.</value>
+  </data>
+  <data name="RolesTitle" xml:space="preserve">
+    <value>Tenant roles</value>
+  </data>
+  <data name="RolesIntro" xml:space="preserve">
+    <value>Roles describe the broad permissions a user has inside a Tenant. Explicit shares can grant narrower access to selected content.</value>
+  </data>
+  <data name="RoleHeader" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="RoleMeaningHeader" xml:space="preserve">
+    <value>Meaning</value>
+  </data>
+  <data name="TenantOwnerRole" xml:space="preserve">
+    <value>Tenant Owner</value>
+  </data>
+  <data name="TenantOwnerDescription" xml:space="preserve">
+    <value>Full Tenant ownership, including members, roles, Projects, prompt content, sharing, and audit.</value>
+  </data>
+  <data name="TenantManagerRole" xml:space="preserve">
+    <value>Tenant Manager</value>
+  </data>
+  <data name="TenantManagerDescription" xml:space="preserve">
+    <value>Manages Tenant collaboration and operational content without being the owner of the Tenant.</value>
+  </data>
+  <data name="WorkspaceManagerRole" xml:space="preserve">
+    <value>Workspace Manager</value>
+  </data>
+  <data name="WorkspaceManagerDescription" xml:space="preserve">
+    <value>Can manage Projects, prompts, folders, variables, sharing, and publishing inside the working area.</value>
+  </data>
+  <data name="ProjectContributorRole" xml:space="preserve">
+    <value>Project Contributor</value>
+  </data>
+  <data name="ProjectContributorDescription" xml:space="preserve">
+    <value>Can create and edit prompt content, folders, tags, variables, and versions.</value>
+  </data>
+  <data name="ReviewerRole" xml:space="preserve">
+    <value>Reviewer</value>
+  </data>
+  <data name="ReviewerDescription" xml:space="preserve">
+    <value>Can view prompts, versions, and exported content for review-oriented workflows.</value>
+  </data>
+  <data name="ViewerRole" xml:space="preserve">
+    <value>Viewer</value>
+  </data>
+  <data name="ViewerDescription" xml:space="preserve">
+    <value>Can view prompt content and versions without changing the catalog.</value>
+  </data>
+</root>

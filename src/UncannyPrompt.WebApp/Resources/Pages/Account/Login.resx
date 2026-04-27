@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="BrandHeroSubtitle" xml:space="preserve"><value>Sign in and keep the prompts worth reusing close at hand.</value></data>
+  <data name="BrandHeroTitle" xml:space="preserve"><value>Your prompt shelf is ready.</value></data>
+  <data name="BrandKicker" xml:space="preserve"><value>Prompt library</value></data>
+  <data name="BrandPointCapture" xml:space="preserve"><value>Capture every prompt worth reusing, organised by Project and tag.</value></data>
+  <data name="BrandPointCollaborate" xml:space="preserve"><value>Share with your team or publish a public link in one click.</value></data>
+  <data name="BrandPointVersion" xml:space="preserve"><value>Track versions and roll back when an experiment goes sideways.</value></data>
+  <data name="DevLoginLink" xml:space="preserve"><value>Development sign-in</value></data>
+  <data name="CreateAccountTitle" xml:space="preserve"><value>Create your account</value></data>
+  <data name="CreateAccountSubtitle" xml:space="preserve"><value>Choose a provider to create your Workspace. If your account already exists, we will sign you in.</value></data>
+  <data name="HomeLink" xml:space="preserve"><value>Home</value></data>
+  <data name="LoginWithGitHub" xml:space="preserve"><value>Continue with GitHub</value></data>
+  <data name="LoginWithGoogle" xml:space="preserve"><value>Continue with Google</value></data>
+  <data name="LoginWithMicrosoftEntraId" xml:space="preserve"><value>Continue with Microsoft Entra ID</value></data>
+  <data name="NoExternalProviderConfigured" xml:space="preserve"><value>No external sign-in provider is configured.</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Sign in</value></data>
+  <data name="PrivacyLink" xml:space="preserve"><value>Privacy</value></data>
+  <data name="SignInError" xml:space="preserve"><value>We couldn't complete the sign-in. Please try again.</value></data>
+  <data name="SignInSubtitle" xml:space="preserve"><value>Choose a provider to continue to your Workspace.</value></data>
+  <data name="SignInTitle" xml:space="preserve"><value>Sign in</value></data>
+</root>

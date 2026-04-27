@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="WelcomeTitle" xml:space="preserve"><value>Welcome to UncannyPrompt!</value></data>
+  <data name="WelcomeBody" xml:space="preserve"><value>Before you can save your first prompt, you need to set up two things inside your Tenant: a Workspace and a Project. They give every prompt a real organizational home — searchable, shareable, and scoped to the right initiative.</value></data>
+  <data name="StepOneTitle" xml:space="preserve"><value>Create a Workspace</value></data>
+  <data name="StepOneBody" xml:space="preserve"><value>A Workspace is the area inside your Tenant that groups related streams of work. It is where sharing rules are defined and where you decide who can collaborate on what.</value></data>
+  <data name="StepTwoTitle" xml:space="preserve"><value>Add a Project inside it</value></data>
+  <data name="StepTwoBody" xml:space="preserve"><value>Projects live inside a Workspace and are the actual containers of your prompts, folders, versions, and variables. Without at least one Project, there is no place to save your work.</value></data>
+  <data name="CtaCreateWorkspace" xml:space="preserve"><value>Create my first Workspace</value></data>
+</root>

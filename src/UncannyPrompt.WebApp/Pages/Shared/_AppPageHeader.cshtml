@@ -1,0 +1,32 @@
+@model AppPageHeaderModel
+
+<div class="app-page-header">
+    <div class="app-page-header-content">
+        <div class="min-w-0">
+            @if (Model.KickerParts is { Count: > 0 })
+            {
+                <p class="app-page-kicker">
+                    @for (var i = 0; i < Model.KickerParts.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            <span class="mx-1 text-zinc-300">/</span>
+                        }
+
+                        @Model.KickerParts[i]
+                    }
+                </p>
+            }
+            <h1 class="app-page-title truncate">@Model.Title</h1>
+        </div>
+        @if (Model.Action is not null)
+        {
+            <a asp-page="@Model.Action.Page"
+               asp-all-route-data="@Model.Action.RouteValues"
+               class="btn btn-primary btn-sm shrink-0 gap-2 rounded-lg">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                @Model.Action.Label
+            </a>
+        }
+    </div>
+</div>

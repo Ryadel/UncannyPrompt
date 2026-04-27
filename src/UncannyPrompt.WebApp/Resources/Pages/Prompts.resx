@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AllFilter" xml:space="preserve"><value>All</value></data>
+  <data name="CopyRaw" xml:space="preserve"><value>Copy raw</value></data>
+  <data name="CopyResolved" xml:space="preserve"><value>Copy resolved</value></data>
+  <data name="EditPrompt" xml:space="preserve"><value>Edit prompt</value></data>
+  <data name="EmptySelection" xml:space="preserve"><value>Choose a prompt and make it useful.</value></data>
+  <data name="FavoritesFilter" xml:space="preserve"><value>Favorites</value></data>
+  <data name="FavoritesOnly" xml:space="preserve"><value>Show favorites only</value></data>
+  <data name="FiltersTitle" xml:space="preserve"><value>Filters</value></data>
+  <data name="NoFolders" xml:space="preserve"><value>No folders yet</value></data>
+  <data name="NoTags" xml:space="preserve"><value>No tags yet</value></data>
+  <data name="ResetFilters" xml:space="preserve"><value>Reset</value></data>
+  <data name="SwitchProject" xml:space="preserve"><value>Switch Project</value></data>
+  <data name="LoadingPrompts" xml:space="preserve"><value>Loading prompts...</value></data>
+  <data name="MissingPrefix" xml:space="preserve"><value>Missing: </value></data>
+  <data name="NoSummaryYet" xml:space="preserve"><value>No summary yet</value></data>
+  <data name="NoVersionLabel" xml:space="preserve"><value>No label</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Prompt Library</value></data>
+  <data name="PinnedPrompt" xml:space="preserve"><value>Pinned</value></data>
+  <data name="PinPrompt" xml:space="preserve"><value>Pin</value></data>
+  <data name="PromptContentPlaceholder" xml:space="preserve"><value>Prompt content with {{variables}}</value></data>
+  <data name="SaveFavorite" xml:space="preserve"><value>Save</value></data>
+  <data name="SavedFavorite" xml:space="preserve"><value>Saved</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>Title, body, notes</value></data>
+  <data name="ShortSummaryPlaceholder" xml:space="preserve"><value>Short summary</value></data>
+  <data name="SortAlphabetical" xml:space="preserve"><value>Alphabetical</value></data>
+  <data name="SortRecentlyUpdated" xml:space="preserve"><value>Recently updated</value></data>
+  <data name="TagsPlaceholder" xml:space="preserve"><value>tags, comma, separated</value></data>
+  <data name="VersionChangelogPlaceholder" xml:space="preserve"><value>Version changelog</value></data>
+</root>

@@ -1,0 +1,84 @@
+@page "{id?}"
+@model UncannyPrompt.WebApp.Pages.Variables.EditModel
+@using UncannyPrompt.Domain
+@{
+    ViewData["Title"] = Localizer["SaveVariable"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(Localizer["SaveVariable"].Value, new[] { SharedLocalizer["Variables"].Value }))" />
+
+    <div class="max-w-3xl">
+        <article class="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">@Model.ErrorMessage</div>
+            }
+
+            @if (Model.MustCreateProjectFirst)
+            {
+                <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                    @Localizer["PrerequisiteBody"]
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <a class="btn btn-primary rounded-lg" asp-page="/Projects/Edit">@SharedLocalizer["CreateProject"]</a>
+                    <a class="btn btn-ghost rounded-lg" asp-page="/Variables">@SharedLocalizer["Cancel"]</a>
+                </div>
+            }
+            else
+            {
+                <form method="post" class="space-y-4">
+                    <input type="hidden" asp-for="Id" />
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["ScopeLabel"]</span>
+                        <select asp-for="Scope" class="select select-bordered rounded-lg">
+                            <option value="@VariableScope.Project">@SharedLocalizer["ScopeProject"]</option>
+                            <option value="@VariableScope.User">@SharedLocalizer["ScopeUser"]</option>
+                        </select>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@SharedLocalizer["Project"]</span>
+                        <select asp-for="ProjectId" asp-items="Model.ProjectOptions" class="select select-bordered rounded-lg"></select>
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["NameLabel"]</span>
+                        <input asp-for="Name" class="input input-bordered rounded-lg" placeholder="@Localizer["VariableNamePlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["DescriptionLabel"]</span>
+                        <input asp-for="Description" class="input input-bordered rounded-lg" placeholder="@SharedLocalizer["DescriptionPlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["DefaultValueLabel"]</span>
+                        <input asp-for="DefaultValue" class="input input-bordered rounded-lg" placeholder="@Localizer["DefaultValuePlaceholder"]" />
+                    </label>
+
+                    <label class="form-control">
+                        <span class="label-text">@Localizer["ValueLabel"]</span>
+                        <input asp-for="Value" class="input input-bordered rounded-lg" placeholder="@Localizer["ValuePlaceholder"]" />
+                    </label>
+
+                    <label class="flex items-center gap-2 text-sm">
+                        <input asp-for="IsRequired" class="checkbox rounded-md" />
+                        @SharedLocalizer["Required"]
+                    </label>
+
+                    <label class="flex items-center gap-2 text-sm">
+                        <input asp-for="IsSecret" class="checkbox rounded-md" />
+                        @SharedLocalizer["Secret"]
+                    </label>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button class="btn btn-primary rounded-lg" type="submit">@SharedLocalizer["Save"]</button>
+                        <a class="btn btn-ghost rounded-lg" asp-page="/Variables" asp-route-projectId="@Model.ProjectId">@SharedLocalizer["Cancel"]</a>
+                    </div>
+                </form>
+            }
+        </article>
+    </div>
+</section>

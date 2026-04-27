@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="TitleCreate" xml:space="preserve"><value>Create Workspace</value></data>
+  <data name="TitleEdit" xml:space="preserve"><value>Edit Workspace</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
+  <data name="NameHint" xml:space="preserve"><value>A short, recognizable name. Shown wherever this Workspace is referenced.</value></data>
+  <data name="DescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="OptionalLabel" xml:space="preserve"><value>optional</value></data>
+  <data name="DescriptionHint" xml:space="preserve"><value>What this Workspace is for. Helps collaborators understand its scope.</value></data>
+  <data name="TenantLabel" xml:space="preserve"><value>Tenant</value></data>
+  <data name="TenantHint" xml:space="preserve"><value>The Tenant that owns this Workspace.</value></data>
+  <data name="PrerequisiteTitle" xml:space="preserve"><value>Create a Tenant first</value></data>
+  <data name="PrerequisiteBody" xml:space="preserve"><value>A Workspace lives inside a Tenant. Create your first Tenant to continue.</value></data>
+  <data name="PrerequisiteAction" xml:space="preserve"><value>Create Tenant</value></data>
+  <data name="ErrorTenantRequired" xml:space="preserve"><value>A Workspace requires a Tenant.</value></data>
+  <data name="ErrorNameRequired" xml:space="preserve"><value>Workspace name is required.</value></data>
+</root>

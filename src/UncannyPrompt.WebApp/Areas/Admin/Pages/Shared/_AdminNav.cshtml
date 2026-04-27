@@ -1,0 +1,17 @@
+@functions {
+    string NavClass(string page)
+    {
+        var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
+        var isActive = string.Equals(currentPage, page, StringComparison.OrdinalIgnoreCase);
+        return isActive
+            ? "block rounded-lg border border-uncanny-200 bg-uncanny-50 px-3 py-2 text-sm font-medium text-uncanny-900"
+            : "block rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950";
+    }
+}
+
+<aside class="space-y-2">
+    <a asp-area="Admin" asp-page="/Index" class="@NavClass("/Index")">@Localizer["Overview"]</a>
+    <a asp-area="Admin" asp-page="/Settings/Index" class="@NavClass("/Settings/Index")">@Localizer["AppSettings"]</a>
+    <a asp-area="Admin" asp-page="/Users/Index" class="@NavClass("/Users/Index")">@Localizer["Users"]</a>
+    <a asp-area="Admin" asp-page="/Tenants/Index" class="@NavClass("/Tenants/Index")">@Localizer["Tenants"]</a>
+</aside>

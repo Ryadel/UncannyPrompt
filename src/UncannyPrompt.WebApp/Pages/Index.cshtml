@@ -1,0 +1,139 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+}
+
+<section class="min-h-screen overflow-x-hidden bg-white text-zinc-950">
+    <div class="fixed right-0 top-0 z-40 hidden h-36 w-36 overflow-hidden md:block">
+        <a class="absolute right-[-3.75rem] top-8 flex w-56 rotate-45 items-center justify-center gap-1.5 bg-zinc-950 px-3 py-1.5 text-xs font-semibold text-white shadow-lg transition hover:bg-uncanny-700"
+           href="https://github.com/Ryadel/UncannyPrompt"
+           target="_blank"
+           rel="noopener">
+            <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>@Localizer["GitHubLink"]</span>
+        </a>
+    </div>
+
+    <partial name="_PublicTopNav" />
+
+    <main>
+        <section class="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:py-20">
+            <div class="max-w-3xl">
+                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-uncanny-700">@Localizer["HeroKicker"]</p>
+                <h1 class="mt-4 text-4xl font-bold text-zinc-950 lg:text-5xl">@Localizer["HeroTitle"]</h1>
+                <p class="mt-5 text-lg leading-8 text-zinc-700">@Localizer["HeroSubtitle"]</p>
+                <div class="mt-8 flex flex-wrap items-center gap-3">
+                    @if (isAuthenticated)
+                    {
+                        <a class="btn btn-primary rounded-lg" asp-page="/Prompts">@Localizer["OpenApp"]</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary rounded-lg" asp-page="/Account/Login" asp-route-intent="signup" asp-route-returnUrl="/Prompts">@Localizer["CreateAccount"]</a>
+                        <a class="btn btn-outline rounded-lg" asp-page="/Account/Login" asp-route-returnUrl="/Prompts">@Localizer["Login"]</a>
+                    }
+                    <a class="btn rounded-lg border-zinc-950 bg-zinc-950 text-white hover:bg-uncanny-700 sm:ml-auto" href="https://github.com/Ryadel/UncannyPrompt" target="_blank" rel="noopener">
+                        <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                        <span>@Localizer["ViewOnGitHub"]</span>
+                    </a>
+                </div>
+                <div class="mt-8 flex flex-wrap gap-2 text-sm text-zinc-600">
+                    <span class="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1">@Localizer["BadgeOpenSource"]</span>
+                    <span class="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1">@Localizer["BadgeMit"]</span>
+                    <span class="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1">@Localizer["BadgeSelfHosted"]</span>
+                    <span class="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1">@Localizer["BadgeSaas"]</span>
+                </div>
+            </div>
+
+            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm">
+                <div class="rounded-xl border border-zinc-200 bg-white">
+                    <div class="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
+                        <div class="flex items-center gap-2">
+                            <img src="~/img/logo.svg" alt="" class="h-7 w-7" />
+                            <span class="brand-wordmark text-[1.2rem]"><span class="brand-wordmark-primary">Uncanny</span><span class="brand-wordmark-accent">Prompt</span></span>
+                        </div>
+                        <span class="rounded-md bg-uncanny-50 px-2 py-1 text-xs font-medium text-uncanny-800">@Localizer["PreviewStatus"]</span>
+                    </div>
+                    <div class="grid gap-0 lg:grid-cols-[11rem_minmax(0,1fr)]">
+                        <div class="border-b border-zinc-200 p-3 lg:border-b-0 lg:border-r">
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">@Localizer["PreviewFilters"]</p>
+                            <div class="mt-3 space-y-2">
+                                <div class="rounded-md bg-uncanny-50 px-3 py-2 text-sm font-medium text-uncanny-900">@Localizer["PreviewFolderOne"]</div>
+                                <div class="rounded-md px-3 py-2 text-sm text-zinc-600">@Localizer["PreviewFolderTwo"]</div>
+                                <div class="rounded-md px-3 py-2 text-sm text-zinc-600">@Localizer["PreviewFolderThree"]</div>
+                            </div>
+                        </div>
+                        <div class="space-y-3 p-4">
+                            <article class="rounded-lg border border-uncanny-600 bg-white p-4">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <h2 class="font-bold text-zinc-950">@Localizer["PreviewPromptOneTitle"]</h2>
+                                        <p class="mt-1 text-sm text-zinc-600">@Localizer["PreviewPromptOneBody"]</p>
+                                    </div>
+                                    <span class="badge rounded-md">v7</span>
+                                </div>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="badge badge-outline rounded-md">@Localizer["PreviewTagSupport"]</span>
+                                    <span class="badge badge-outline rounded-md">@Localizer["PreviewTagShared"]</span>
+                                </div>
+                            </article>
+                            <article class="rounded-lg border border-zinc-200 bg-white p-4">
+                                <h2 class="font-bold text-zinc-950">@Localizer["PreviewPromptTwoTitle"]</h2>
+                                <p class="mt-1 text-sm text-zinc-600">@Localizer["PreviewPromptTwoBody"]</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="border-y border-zinc-200 bg-zinc-50">
+            <div class="mx-auto grid max-w-7xl gap-4 px-4 py-10 md:grid-cols-3">
+                <article class="rounded-lg border border-zinc-200 bg-white p-5">
+                    <h2 class="text-lg font-bold text-zinc-950">@Localizer["FeatureCatalogTitle"]</h2>
+                    <p class="mt-2 text-sm leading-6 text-zinc-600">@Localizer["FeatureCatalogBody"]</p>
+                </article>
+                <article class="rounded-lg border border-zinc-200 bg-white p-5">
+                    <h2 class="text-lg font-bold text-zinc-950">@Localizer["FeatureVersionsTitle"]</h2>
+                    <p class="mt-2 text-sm leading-6 text-zinc-600">@Localizer["FeatureVersionsBody"]</p>
+                </article>
+                <article class="rounded-lg border border-zinc-200 bg-white p-5">
+                    <h2 class="text-lg font-bold text-zinc-950">@Localizer["FeatureVariablesTitle"]</h2>
+                    <p class="mt-2 text-sm leading-6 text-zinc-600">@Localizer["FeatureVariablesBody"]</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mx-auto grid max-w-7xl gap-6 px-4 py-12 lg:grid-cols-2">
+            <article class="rounded-lg border border-zinc-200 bg-white p-6">
+                <h2 class="text-2xl font-bold text-zinc-950">@Localizer["SelfHostedTitle"]</h2>
+                <p class="mt-3 text-sm leading-6 text-zinc-600">@Localizer["SelfHostedBody"]</p>
+            </article>
+            <article class="rounded-lg border border-zinc-200 bg-white p-6">
+                <h2 class="text-2xl font-bold text-zinc-950">@Localizer["SaasTitle"]</h2>
+                <p class="mt-3 text-sm leading-6 text-zinc-600">@Localizer["SaasBody"]</p>
+            </article>
+        </section>
+
+        <section class="bg-zinc-950 text-white">
+            <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold">@Localizer["OpenSourceTitle"]</h2>
+                    <p class="mt-2 max-w-2xl text-sm leading-6 text-zinc-300">@Localizer["OpenSourceBody"]</p>
+                </div>
+                <a class="btn btn-primary rounded-lg" href="https://github.com/Ryadel/UncannyPrompt" target="_blank" rel="noopener">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    <span>@Localizer["ViewOnGitHub"]</span>
+                </a>
+            </div>
+        </section>
+    </main>
+</section>

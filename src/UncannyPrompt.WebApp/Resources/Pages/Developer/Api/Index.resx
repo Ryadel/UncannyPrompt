@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>API Keys</value></data>
+  <data name="IntroTitle" xml:space="preserve"><value>Access the UncannyPrompt API</value></data>
+  <data name="IntroBody" xml:space="preserve"><value>Create API keys for automation and integrations. Keys authenticate as your user, so Tenant roles and sharing rules still apply to every request.</value></data>
+  <data name="DocsButton" xml:space="preserve"><value>API docs</value></data>
+  <data name="UseHeaderPrefix" xml:space="preserve"><value>Send the key with the</value></data>
+  <data name="UseBearerPrefix" xml:space="preserve"><value>Or use</value></data>
+  <data name="ShownOnce" xml:space="preserve"><value>New keys are shown once. Store them securely before leaving the creation page.</value></data>
+  <data name="KeysTitle" xml:space="preserve"><value>Keys</value></data>
+  <data name="CreateKeyButton" xml:space="preserve"><value>Create key</value></data>
+  <data name="NoKeys" xml:space="preserve"><value>No API keys yet. Create one when you need to connect scripts, internal tools, or integrations.</value></data>
+  <data name="NameHeader" xml:space="preserve"><value>Name</value></data>
+  <data name="PrefixHeader" xml:space="preserve"><value>Prefix</value></data>
+  <data name="CreatedHeader" xml:space="preserve"><value>Created</value></data>
+  <data name="LastUsedHeader" xml:space="preserve"><value>Last used</value></data>
+  <data name="ExpiresHeader" xml:space="preserve"><value>Expires</value></data>
+  <data name="ActionsHeader" xml:space="preserve"><value>Actions</value></data>
+  <data name="RevokeButton" xml:space="preserve"><value>Revoke</value></data>
+  <data name="RevokeConfirmation" xml:space="preserve"><value>Revoke this API key?</value></data>
+  <data name="InvalidApiKey" xml:space="preserve"><value>Invalid API key.</value></data>
+  <data name="RevokeSuccess" xml:space="preserve"><value>API key revoked.</value></data>
+  <data name="RevokeNotFound" xml:space="preserve"><value>API key not found.</value></data>
+</root>

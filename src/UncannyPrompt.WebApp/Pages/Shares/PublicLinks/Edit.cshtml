@@ -1,0 +1,35 @@
+@page
+@model UncannyPrompt.WebApp.Pages.Shares.PublicLinks.EditModel
+@{
+    ViewData["Title"] = Localizer["PublicLink"];
+}
+
+<section class="app-page">
+    <partial name="_AppPageHeader" model="@(new AppPageHeaderModel(Localizer["PublicLink"].Value, new[] { SharedLocalizer["Sharing"].Value }))" />
+
+    <div class="max-w-3xl">
+        <article class="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">@Model.ErrorMessage</div>
+            }
+
+            <form method="post" class="space-y-4">
+                <label class="form-control">
+                    <span class="label-text">@SharedLocalizer["Prompt"]</span>
+                    <select asp-for="PromptId" asp-items="Model.PromptOptions" class="select select-bordered rounded-lg"></select>
+                </label>
+
+                <label class="form-control">
+                    <span class="label-text">@Localizer["ExpiresAtLabel"]</span>
+                    <input asp-for="ExpiresAt" type="datetime-local" class="input input-bordered rounded-lg" />
+                </label>
+
+                <div class="flex flex-wrap gap-2">
+                    <button class="btn btn-primary rounded-lg" type="submit">@Localizer["CreateLink"]</button>
+                    <a class="btn btn-ghost rounded-lg" asp-page="/Shares">@SharedLocalizer["Cancel"]</a>
+                </div>
+            </form>
+        </article>
+    </div>
+</section>
