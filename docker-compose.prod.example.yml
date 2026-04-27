@@ -19,7 +19,6 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: ${Database__Password}
-      MSSQL_PID: ${SQLSERVER_PID:-Developer}
     ports:
       - "127.0.0.1:${Docker__SqlServerPublicPort}:${Docker__SqlServerContainerPort}"
     volumes:
