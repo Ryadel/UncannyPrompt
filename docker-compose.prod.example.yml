@@ -1,0 +1,75 @@
+# Production Docker Compose example
+#
+# Differences from docker-compose.yml:
+#   - webapp uses the pre-built image from ghcr.io (no build: directive)
+#   - services use restart: unless-stopped
+#   - sqlserver is bound to localhost only
+#   - Data Protection keys are persisted in a named volume
+#
+# Usage on the production server:
+#   cp docker-compose.prod.example.yml docker-compose.prod.yml
+#   create a .env file with production values (never committed to Git)
+#   docker compose -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.prod.yml up -d
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${Database__Password}
+      MSSQL_PID: ${SQLSERVER_PID:-Developer}
+    ports:
+      - "127.0.0.1:${Docker__SqlServerPublicPort}:${Docker__SqlServerContainerPort}"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  webapp:
+    image: ghcr.io/ryadel/uncannyprompt-webapp:latest
+    restart: unless-stopped
+    volumes:
+      - dataprotection-keys:/app/App_Keys
+    environment:
+      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      Database__Host: ${Database__Host}
+      Database__Port: ${Database__Port}
+      Database__Name: ${Database__Name}
+      Database__Username: ${Database__Username}
+      Database__Password: ${Database__Password}
+      Database__TrustServerCertificate: ${Database__TrustServerCertificate}
+      Database__ApplyMigrationsOnStartup: ${Database__ApplyMigrationsOnStartup:-true}
+      Security__SecretEncryptionKey: ${Security__SecretEncryptionKey}
+      Security__ApiKeyHashKey: ${Security__ApiKeyHashKey}
+      Authentication__Google__ClientId: ${Authentication__Google__ClientId}
+      Authentication__Google__ClientSecret: ${Authentication__Google__ClientSecret}
+      Authentication__EntraId__Instance: ${Authentication__EntraId__Instance}
+      Authentication__EntraId__TenantId: ${Authentication__EntraId__TenantId}
+      Authentication__EntraId__ClientId: ${Authentication__EntraId__ClientId}
+      Authentication__EntraId__ClientSecret: ${Authentication__EntraId__ClientSecret}
+      Authentication__EntraId__CallbackPath: ${Authentication__EntraId__CallbackPath}
+      Authentication__GitHub__ClientId: ${Authentication__GitHub__ClientId}
+      Authentication__GitHub__ClientSecret: ${Authentication__GitHub__ClientSecret}
+      SeedOptions__AdminUsers__0__Provider: ${SeedOptions__AdminUsers__0__Provider}
+      SeedOptions__AdminUsers__0__UniqueId: ${SeedOptions__AdminUsers__0__UniqueId}
+      SeedOptions__AdminUsers__0__Email: ${SeedOptions__AdminUsers__0__Email}
+    ports:
+      - "${Docker__WebAppPort}:${Docker__WebAppContainerPort}"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+networks:
+  default:
+    name: uncannyprompt-network
+
+volumes:
+  dataprotection-keys:
+  sqlserver-data:

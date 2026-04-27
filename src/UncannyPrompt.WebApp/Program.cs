@@ -113,10 +113,10 @@ AddExternalProviderIfConfigured("Authentication:Google", () =>
         options.Events.OnCreatingTicket = context => ProvisionExternalUserAsync(context, "google");
     }));
 
-AddExternalProviderIfConfigured("EntraId", () =>
+AddExternalProviderIfConfigured("Authentication:EntraId", () =>
 {
     authentication.AddMicrosoftIdentityWebApp(
-        builder.Configuration.GetSection("EntraId"),
+        builder.Configuration.GetSection("Authentication:EntraId"),
         openIdConnectScheme: OpenIdConnectDefaults.AuthenticationScheme,
         cookieScheme: null);
     builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
