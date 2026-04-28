@@ -61,7 +61,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
             continue;
         }
 
-        options.KnownIPNetworks.Add(new IPNetwork(address, prefixLength));
+        options.KnownIPNetworks.Add(new System.Net.IPNetwork(address, prefixLength));
     }
 });
 
