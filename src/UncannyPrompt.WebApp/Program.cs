@@ -1,8 +1,10 @@
 using System.Security.Claims;
+using System.Net;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using Serilog;
@@ -23,6 +26,44 @@ using UncannyPrompt.WebApp.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureUncannyPromptHost();
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.ForwardLimit = Math.Max(1, builder.Configuration.GetValue<int?>("ReverseProxy:ForwardLimit") ?? 1);
+
+    var knownProxies = builder.Configuration.GetSection("ReverseProxy:KnownProxies").Get<string[]>() ?? Array.Empty<string>();
+    foreach (var proxy in knownProxies)
+    {
+        if (IPAddress.TryParse(proxy, out var ipAddress))
+        {
+            options.KnownProxies.Add(ipAddress);
+        }
+    }
+
+    var knownNetworks = builder.Configuration.GetSection("ReverseProxy:KnownNetworks").Get<string[]>() ?? Array.Empty<string>();
+    foreach (var network in knownNetworks)
+    {
+        var parts = network.Split('/', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length != 2)
+        {
+            continue;
+        }
+
+        if (!IPAddress.TryParse(parts[0], out var address) || !int.TryParse(parts[1], out var prefixLength))
+        {
+            continue;
+        }
+
+        var maxPrefix = address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ? 32 : 128;
+        if (prefixLength < 0 || prefixLength > maxPrefix)
+        {
+            continue;
+        }
+
+        options.KnownIPNetworks.Add(new IPNetwork(address, prefixLength));
+    }
+});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserContext, CurrentUserContext>();
@@ -121,6 +162,7 @@ AddExternalProviderIfConfigured("Authentication:EntraId", () =>
         cookieScheme: null);
     builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
+        options.ResponseType = OpenIdConnectResponseType.Code;
         options.Events ??= new OpenIdConnectEvents();
         options.Events.OnTokenValidated = context => ProvisionEntraUserAsync(context);
     });
@@ -154,6 +196,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseForwardedHeaders();
 app.UseHttpsRedirection();
 
 app.UseRequestLocalization(new RequestLocalizationOptions()

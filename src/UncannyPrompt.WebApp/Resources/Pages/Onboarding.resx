@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="CallToActionBody" xml:space="preserve"><value>Once your first workspace exists, you can start defining the projects that will hold your prompt collections and organize your work with intention.</value></data>
+  <data name="CreateFirstWorkspace" xml:space="preserve"><value>Create My First Workspace</value></data>
+  <data name="HeroTitle" xml:space="preserve"><value>How UncannyPrompt is organized</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Onboarding</value></data>
+  <data name="StepOneBody" xml:space="preserve"><value>You are currently inside your personal tenant, which represents your account. This tenant is the top-level container for your personal prompt space and will contain all the work you create unless you later add collaborative structures.</value></data>
+  <data name="StepOneTitle" xml:space="preserve"><value>You are in your personal tenant</value></data>
+  <data name="StepTwoBody" xml:space="preserve"><value>Inside your tenant, you create one or more workspaces. Each workspace can contain one or more projects, and projects are where prompts are actually divided and organized by initiative, domain, or stream of work.</value></data>
+  <data name="StepTwoTitle" xml:space="preserve"><value>Create workspaces, then projects</value></data>
+  <data name="WelcomeBody" xml:space="preserve"><value>UncannyPrompt does not prefill your account with placeholder workspaces or projects. Instead, it starts from your personal tenant and lets you build the structure intentionally, so the prompt library reflects how you actually want to organize your work.</value></data>
+  <data name="WelcomeTitle" xml:space="preserve"><value>Welcome to UncannyPrompt</value></data>
+</root>
