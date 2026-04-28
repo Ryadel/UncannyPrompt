@@ -11,7 +11,11 @@ using UncannyPrompt.Shared;
 namespace UncannyPrompt.WebApp.Controllers;
 
 [Route("account")]
-public sealed class AccountController(IUserService userService, IWebHostEnvironment environment, IConfiguration configuration) : Controller
+public sealed class AccountController(
+    IUserService userService,
+    IWebHostEnvironment environment,
+    IConfiguration configuration,
+    ILogger<AccountController> logger) : Controller
 {
     [HttpGet("signin/{provider}")]
     [AllowAnonymous]
@@ -28,6 +32,13 @@ public sealed class AccountController(IUserService userService, IWebHostEnvironm
 
         if (scheme is null || !IsProviderConfigured(providerKey))
         {
+            logger.LogWarning(
+                "Sign-in requested for unsupported or unconfigured provider {Provider}. Scheme: {Scheme}; HasGoogle: {HasGoogle}; HasEntra: {HasEntra}; HasGitHub: {HasGitHub}",
+                provider,
+                scheme,
+                IsProviderConfigured("google"),
+                IsProviderConfigured("entra"),
+                IsProviderConfigured("github"));
             return BadRequest("Unsupported or unconfigured provider.");
         }
 
@@ -35,6 +46,16 @@ public sealed class AccountController(IUserService userService, IWebHostEnvironm
         {
             RedirectUri = Url.Action(nameof(ExternalCallback), new { returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/Prompts" : returnUrl })
         };
+
+        logger.LogInformation(
+            "Starting external sign-in. Provider: {Provider}; Scheme: {Scheme}; RedirectUriAfterExternalLogin: {RedirectUri}; Request: {RequestScheme}://{RequestHost}{RequestPath}",
+            providerKey,
+            scheme,
+            properties.RedirectUri,
+            Request.Scheme,
+            Request.Host.Value,
+            Request.Path.Value);
+
         return Challenge(properties, scheme);
     }
 

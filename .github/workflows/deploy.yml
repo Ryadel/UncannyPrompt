@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
+          file: infra/Dockerfile.webapp
           push: true
           tags: ${{ steps.meta-webapp.outputs.tags }}
           labels: ${{ steps.meta-webapp.outputs.labels }}

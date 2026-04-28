@@ -2,7 +2,7 @@ services:
   webapp:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: infra/Dockerfile.webapp
     depends_on:
       sqlserver:
         condition: service_healthy

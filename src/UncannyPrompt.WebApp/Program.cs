@@ -120,16 +120,32 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+var consoleTelemetryEnabled = builder.Configuration.GetValue<bool>("OpenTelemetry:ConsoleExporter:Enabled");
+
 builder.Services.AddOpenTelemetry()
-    .WithTracing(tracing => tracing
-        .AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddConsoleExporter())
-    .WithMetrics(metrics => metrics
-        .AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddRuntimeInstrumentation()
-        .AddConsoleExporter());
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+
+        if (consoleTelemetryEnabled)
+        {
+            tracing.AddConsoleExporter();
+        }
+    })
+    .WithMetrics(metrics =>
+    {
+        metrics
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddRuntimeInstrumentation();
+
+        if (consoleTelemetryEnabled)
+        {
+            metrics.AddConsoleExporter();
+        }
+    });
 
 var authentication = builder.Services.AddAuthentication(options =>
 {
@@ -162,9 +178,89 @@ AddExternalProviderIfConfigured("Authentication:EntraId", () =>
         cookieScheme: null);
     builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
+        options.SignInScheme = AppConstants.CookieScheme;
         options.ResponseType = OpenIdConnectResponseType.Code;
         options.Events ??= new OpenIdConnectEvents();
-        options.Events.OnTokenValidated = context => ProvisionEntraUserAsync(context);
+        options.Events.OnRedirectToIdentityProvider = context =>
+        {
+            GetEntraLogger(context.HttpContext).LogInformation(
+                "Redirecting to Microsoft Entra ID. RedirectUri: {RedirectUri}; ResponseType: {ResponseType}; Scope: {Scope}; Request: {Scheme}://{Host}{PathBase}{Path}",
+                context.ProtocolMessage.RedirectUri,
+                context.ProtocolMessage.ResponseType,
+                context.ProtocolMessage.Scope,
+                context.Request.Scheme,
+                context.Request.Host.Value,
+                context.Request.PathBase.Value,
+                context.Request.Path.Value);
+            return Task.CompletedTask;
+        };
+        options.Events.OnMessageReceived = context =>
+        {
+            var hasError = !string.IsNullOrWhiteSpace(context.ProtocolMessage.Error);
+            var logger = GetEntraLogger(context.HttpContext);
+
+            if (hasError)
+            {
+                logger.LogWarning(
+                    "Microsoft Entra ID callback returned an error. Error: {Error}; Description: {ErrorDescription}; ErrorUri: {ErrorUri}; HasCode: {HasCode}; HasState: {HasState}; Method: {Method}; Path: {Path}",
+                    context.ProtocolMessage.Error,
+                    Truncate(context.ProtocolMessage.ErrorDescription),
+                    context.ProtocolMessage.ErrorUri,
+                    !string.IsNullOrWhiteSpace(context.ProtocolMessage.Code),
+                    !string.IsNullOrWhiteSpace(context.ProtocolMessage.State),
+                    context.Request.Method,
+                    context.Request.Path.Value);
+            }
+            else
+            {
+                logger.LogInformation(
+                    "Microsoft Entra ID callback received. HasCode: {HasCode}; HasState: {HasState}; Method: {Method}; Path: {Path}",
+                    !string.IsNullOrWhiteSpace(context.ProtocolMessage.Code),
+                    !string.IsNullOrWhiteSpace(context.ProtocolMessage.State),
+                    context.Request.Method,
+                    context.Request.Path.Value);
+            }
+
+            return Task.CompletedTask;
+        };
+        options.Events.OnTokenValidated = async context =>
+        {
+            GetEntraLogger(context.HttpContext).LogInformation(
+                "Microsoft Entra ID token validated. HasOid: {HasOid}; HasSub: {HasSub}; HasEmail: {HasEmail}; HasName: {HasName}",
+                context.Principal?.FindFirst("oid") is not null,
+                context.Principal?.FindFirst("sub") is not null,
+                context.Principal?.FindFirst("preferred_username") is not null ||
+                context.Principal?.FindFirst("email") is not null ||
+                context.Principal?.FindFirst(ClaimTypes.Email) is not null,
+                context.Principal?.FindFirst("name") is not null ||
+                context.Principal?.FindFirst(ClaimTypes.Name) is not null);
+
+            await ProvisionEntraUserAsync(context);
+        };
+        options.Events.OnAuthenticationFailed = context =>
+        {
+            GetEntraLogger(context.HttpContext).LogError(
+                context.Exception,
+                "Microsoft Entra ID callback authentication failed. Method: {Method}; Path: {Path}; Message: {Message}",
+                context.Request.Method,
+                context.Request.Path.Value,
+                Truncate(context.Exception.Message));
+            context.Response.Redirect("/Account/Login?error=entra");
+            context.HandleResponse();
+            return Task.CompletedTask;
+        };
+        options.Events.OnRemoteFailure = context =>
+        {
+            GetEntraLogger(context.HttpContext).LogError(
+                context.Failure,
+                "Microsoft Entra ID remote authentication failed. Method: {Method}; Path: {Path}; Failure: {Failure}",
+                context.Request.Method,
+                context.Request.Path.Value,
+                Truncate(context.Failure?.Message));
+            context.Response.Redirect("/Account/Login?error=entra");
+            context.HandleResponse();
+            return Task.CompletedTask;
+        };
     });
 }, "TenantId");
 
@@ -320,4 +416,19 @@ static async Task ProvisionEntraUserAsync(TokenValidatedContext context)
         identity.AddClaim(new Claim(ClaimTypes.Name, user.DisplayName));
         identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
     }
+}
+
+static Microsoft.Extensions.Logging.ILogger GetEntraLogger(HttpContext httpContext) =>
+    httpContext.RequestServices
+        .GetRequiredService<ILoggerFactory>()
+        .CreateLogger("UncannyPrompt.EntraId");
+
+static string? Truncate(string? value, int maxLength = 700)
+{
+    if (string.IsNullOrWhiteSpace(value) || value.Length <= maxLength)
+    {
+        return value;
+    }
+
+    return value[..maxLength] + "...";
 }
