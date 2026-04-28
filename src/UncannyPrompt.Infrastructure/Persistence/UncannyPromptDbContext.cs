@@ -33,7 +33,7 @@ public sealed class UncannyPromptDbContext(DbContextOptions<UncannyPromptDbConte
         {
             entity.Property(x => x.DisplayName).HasMaxLength(160);
             entity.Property(x => x.Email).HasMaxLength(320);
-            entity.Property(x => x.Role).HasDefaultValue(UserRole.ReadOnly).HasSentinel(UserRole.ReadOnly);
+            entity.Property(x => x.Role).HasDefaultValue(UserRole.Standard).HasSentinel(UserRole.Standard);
             entity.HasIndex(x => x.Email).IsUnique();
         });
 

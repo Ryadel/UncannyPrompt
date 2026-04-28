@@ -4,7 +4,7 @@ public sealed class User : Entity
 {
     public string DisplayName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public UserRole Role { get; set; } = UserRole.ReadOnly;
+    public UserRole Role { get; set; } = UserRole.Standard;
     public UserStatus Status { get; set; } = UserStatus.Active;
     public string? LastLoginProvider { get; set; }
     public DateTimeOffset? LastLoginAt { get; set; }

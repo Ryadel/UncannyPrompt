@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UncannyPrompt.Infrastructure;
 
@@ -11,9 +12,11 @@ using UncannyPrompt.Infrastructure;
 namespace UncannyPrompt.Infrastructure.Migrations
 {
     [DbContext(typeof(UncannyPromptDbContext))]
-    partial class UncannyPromptDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260428235121_SimplifyUserRole")]
+    partial class SimplifyUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
